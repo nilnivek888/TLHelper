@@ -6,13 +6,13 @@ import { Card } from "./card"
 
 declare let module
 
-
-storiesOf("AutoImage", module)
+storiesOf("Card", module)
   .addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
   .add("Style Presets", () => (
     <Story>
       <UseCase text="2 column row" usage="Display 2 products">
-          <Card></Card>
+        <Card text="1"></Card>
+        <Card text="3"></Card>
       </UseCase>
     </Story>
   ))
