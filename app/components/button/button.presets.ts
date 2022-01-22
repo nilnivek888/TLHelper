@@ -4,16 +4,16 @@ import { color, spacing } from "../../theme"
 /**
  * All text will start off looking like this.
  */
-const BASE_VIEW: ViewStyle = {
+ const BASE_VIEW: ViewStyle = {
+  paddingVertical: spacing[2],
+  paddingHorizontal: spacing[2],
   borderRadius: 4,
   justifyContent: "center",
-  flexBasis:"30%"
+  alignItems: "center",
 }
 
 const BASE_TEXT: TextStyle = {
-  textAlignVertical: "center",
-  alignSelf: "center",
-  position:"absolute"
+  paddingHorizontal: spacing[3],
 }
 
 /**
@@ -36,6 +36,12 @@ export const viewPresets: Record<string, ViewStyle> = {
     paddingVertical: 0,
     alignItems: "flex-start",
   } as ViewStyle,
+
+  card: {
+    borderRadius: 4,
+    justifyContent: "center",
+    width:"25%",
+  } as ViewStyle,
 }
 
 export const textPresets: Record<ButtonPresetNames, TextStyle> = {
@@ -45,6 +51,12 @@ export const textPresets: Record<ButtonPresetNames, TextStyle> = {
     color: color.text,
     paddingHorizontal: 0,
     paddingVertical: 0,
+  } as TextStyle,
+  card: {
+    fontSize:54,
+    textAlignVertical: "center",
+    alignSelf: "center",
+    position:"absolute"
   } as TextStyle,
 }
 

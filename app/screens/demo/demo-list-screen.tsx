@@ -13,7 +13,7 @@ const FULL: ViewStyle = {
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
 }
-const HEADER: TextStyle = {
+const HEADER: ViewStyle = {
   paddingBottom: spacing[5] - 1,
   paddingHorizontal: spacing[4],
   paddingTop: spacing[3],

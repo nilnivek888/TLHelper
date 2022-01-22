@@ -11,5 +11,6 @@ export const palette = {
   muave:"#b07696",
   muaveDarker:"#945f78",
   blackBean: "#3d1308",
-  rose:"#F2DADB"
+  rose:"#F2DADB",
+  roseDarker:"#c5a9a7"
 }

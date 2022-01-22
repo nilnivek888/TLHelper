@@ -7,7 +7,7 @@ type CardProps = { text: string }
 const cardFillStyle: ViewStyle = {
   backgroundColor: "#3d1308",
   height: 146,
-  width: "50%",
+  flex: 0.5,
   borderRadius: 9,
   shadowColor: "#000",
   shadowOffset: {
@@ -17,13 +17,16 @@ const cardFillStyle: ViewStyle = {
   shadowOpacity: 0.25,
   shadowRadius: 3.84,
   elevation: 5,
+  margin: 2,
 }
 const cardTextStyle: TextStyle = {
   fontSize: 54,
   textAlignVertical: "center",
+  textAlign: "center",
   alignSelf: "center",
   position: "absolute",
-  marginLeft: -15,
+  width: "100%",
+  left: 0,
 }
 const counterFillStyle: ViewStyle[] = [
   {
@@ -50,8 +53,9 @@ const counterFillStyle: ViewStyle[] = [
 
 const counterTextStyle: TextStyle[] = [
   {
-    fontSize: 44,
+    fontSize: 50,
     textAlignVertical: "center",
+    textAlign: "center",
     alignSelf: "center",
     position: "absolute",
     flex: 1,
@@ -60,8 +64,7 @@ const counterTextStyle: TextStyle[] = [
 
 const flexWrapStyle: ViewStyle = {
   borderRadius: 4,
-  flex: 2,
-  flexGrow: 2,
+  width: "50%",
   justifyContent: "center",
   alignItems: "center",
   padding: 0,
@@ -72,19 +75,23 @@ const flexWrapStyle: ViewStyle = {
  *  This component will hold Item ID, Item count, plus button, minus button, item button
  */
 export function Card(props: CardProps) {
-  const [count, setCount] = useState(1)
+  const [count, setCount] = useState(10)
   return (
     <View style={cardFillStyle}>
-      <View style={{ width: "100%", height: "55%" }}>
+      <View style={{ width: "100%", height: "55%", overflow: "hidden" }}>
         <Text style={cardTextStyle}> {props.text}</Text>
       </View>
 
       <View style={counterFillStyle}>
-        <Button tx="calculatorScreen.minus" />
+        <Button
+          tx="calculatorScreen.minus"
+          preset="card"
+          onPress={() => setCount(count > 0 ? count - 1 : 0)}
+        />
         <View style={flexWrapStyle}>
           <Text style={counterTextStyle}> {count}</Text>
         </View>
-        <Button tx="calculatorScreen.plus" />
+        <Button tx="calculatorScreen.plus" preset="card" onPress={() => setCount(count + 1)} />
       </View>
     </View>
   )

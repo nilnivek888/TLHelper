@@ -73,6 +73,7 @@ const CONTINUE: ViewStyle = {
   paddingVertical: spacing[4],
   paddingHorizontal: spacing[4],
   backgroundColor: color.palette.deepPurple,
+  margin: 4,
 }
 const CONTINUE_TEXT: TextStyle = {
   ...TEXT,
@@ -88,7 +89,8 @@ const FOOTER_CONTENT: ViewStyle = {
 
 export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, "welcome">> = observer(
   ({ navigation }) => {
-    const nextScreen = () => navigation.navigate("demo")
+    const calculator = () => navigation.navigate("calculator")
+    const demoList = () => navigation.navigate("demoList")
 
     return (
       <View testID="WelcomeScreen" style={FULL}>
@@ -117,8 +119,15 @@ export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, "welcome">> 
               testID="next-screen-button"
               style={CONTINUE}
               textStyle={CONTINUE_TEXT}
-              tx="welcomeScreen.continue"
-              onPress={nextScreen}
+              text="calculator"
+              onPress={calculator}
+            />
+            <Button
+              testID="next-screen-button"
+              style={CONTINUE}
+              textStyle={CONTINUE_TEXT}
+              text="demolist"
+              onPress={demoList}
             />
           </View>
         </SafeAreaView>

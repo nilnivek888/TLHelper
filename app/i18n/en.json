@@ -39,6 +39,7 @@
   },
   "calculatorScreen": {
     "plus":"+",
-    "minus":"-"
+    "minus":"-",
+    "calculator":"計算機"
   }
 }

@@ -41,6 +41,10 @@ export const color = {
    */
   text: palette.rose,
   /**
+   * The default color of text in light background.
+   */
+  textDark: palette.blackBean,
+  /**
    * Secondary information.
    */
   dim: palette.lightGrey,
