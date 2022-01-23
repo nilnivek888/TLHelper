@@ -34,10 +34,14 @@ const LIST_CONTAINER: ViewStyle = {
 const FLAT_LIST: ViewStyle = {
   paddingHorizontal: spacing[0],
 }
-const FOOTER: ViewStyle = { backgroundColor: color.palette.roseDarker }
+const FOOTER: ViewStyle = { height: "20%", backgroundColor: color.transparent }
 const FOOTER_CONTENT: ViewStyle = {
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
+  margin: 5,
+  height: "50%",
+  backgroundColor: color.palette.roseDarker,
+}
+const TAB_BAR: ViewStyle = {
+  height: "50%",
 }
 
 const products: Product[] = [
@@ -79,6 +83,7 @@ export const CalculatorScreen: FC<StackScreenProps<NavigatorParamList, "calculat
         </Screen>
         <SafeAreaView style={FOOTER}>
           <View style={FOOTER_CONTENT}></View>
+          <View style={TAB_BAR}></View>
         </SafeAreaView>
       </View>
     )

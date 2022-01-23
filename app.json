@@ -1,9 +1,9 @@
 {
-  "name": "HelloWorld",
-  "displayName": "HelloWorld",
+  "name": "TLHelper",
+  "displayName": "TLHelper",
   "expo": {
-    "name": "HelloWorld",
-    "slug": "HelloWorld",
+    "name": "TLHelper",
+    "slug": "TLHelper",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

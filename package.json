@@ -30,6 +30,7 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.14.1",
     "@react-native-community/masked-view": "0.1.10",
+    "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "~6.0.1",
     "@react-navigation/native-stack": "^6.0.2",
     "@react-navigation/stack": "~6.0.1",
@@ -111,7 +112,7 @@
   },
   "prettier": {
     "printWidth": 100,
-    "semi": false,
+    "semi": true,
     "singleQuote": false,
     "trailingComma": "all"
   },

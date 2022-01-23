@@ -1,8 +1,9 @@
-import React, { useState } from "react"
-import { TextStyle, View, ViewStyle } from "react-native"
-import { Button, Text } from ".."
+import React, { useState } from "react";
+import { TextStyle, View, ViewStyle } from "react-native";
+import { Button, Icon, Text } from "..";
+import { color } from "../../theme";
 
-type CardProps = { text: string }
+type CardProps = { text: string };
 
 const cardFillStyle: ViewStyle = {
   backgroundColor: "#3d1308",
@@ -18,7 +19,7 @@ const cardFillStyle: ViewStyle = {
   shadowRadius: 3.84,
   elevation: 5,
   margin: 2,
-}
+};
 const cardTextStyle: TextStyle = {
   fontSize: 54,
   textAlignVertical: "center",
@@ -27,7 +28,7 @@ const cardTextStyle: TextStyle = {
   position: "absolute",
   width: "100%",
   left: 0,
-}
+};
 const counterFillStyle: ViewStyle[] = [
   {
     backgroundColor: "#945f78",
@@ -49,7 +50,7 @@ const counterFillStyle: ViewStyle[] = [
     flexDirection: "row",
     justifyContent: "center",
   },
-]
+];
 
 const counterTextStyle: TextStyle[] = [
   {
@@ -60,7 +61,7 @@ const counterTextStyle: TextStyle[] = [
     position: "absolute",
     flex: 1,
   },
-]
+];
 
 const flexWrapStyle: ViewStyle = {
   borderRadius: 4,
@@ -68,14 +69,14 @@ const flexWrapStyle: ViewStyle = {
   justifyContent: "center",
   alignItems: "center",
   padding: 0,
-}
+};
 
 /**
  *  A component consisting of 3 buttons and 2 short texts (less than 10 characters)
  *  This component will hold Item ID, Item count, plus button, minus button, item button
  */
 export function Card(props: CardProps) {
-  const [count, setCount] = useState(10)
+  const [count, setCount] = useState(10);
   return (
     <View style={cardFillStyle}>
       <View style={{ width: "100%", height: "55%", overflow: "hidden" }}>
@@ -83,16 +84,28 @@ export function Card(props: CardProps) {
       </View>
 
       <View style={counterFillStyle}>
-        <Button
-          tx="calculatorScreen.minus"
-          preset="card"
-          onPress={() => setCount(count > 0 ? count - 1 : 0)}
-        />
+        <Button preset="card" onPress={() => setCount(count > 0 ? count - 1 : 0)}>
+          <Icon
+            icon="calculator"
+            style={{
+              height: "60%",
+              width: "60%",
+              tintColor: color.palette.rose,
+            }}
+            containerStyle={{
+              height: "100%",
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          />
+        </Button>
+
         <View style={flexWrapStyle}>
           <Text style={counterTextStyle}> {count}</Text>
         </View>
         <Button tx="calculatorScreen.plus" preset="card" onPress={() => setCount(count + 1)} />
       </View>
     </View>
-  )
+  );
 }
