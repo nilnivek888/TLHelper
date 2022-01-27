@@ -1,6 +1,6 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { observer } from "mobx-react-lite";
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
 	View,
 	SafeAreaView,
@@ -8,7 +8,8 @@ import {
 	ViewStyle,
 	FlatList,
 } from "react-native";
-import { Screen, Header, Text } from "../../components";
+import { Checkbox } from "react-native-paper";
+import { Screen, Header, Text, Button, CheckBox } from "../../components";
 import { Card } from "../../components/card/card";
 import { useStores } from "../../models";
 import { Product } from "../../models/product/product";
@@ -53,6 +54,8 @@ const SUBHEADER_CONTAINERS: ViewStyle = {
 	justifyContent: "center",
 	width: "50%",
 	height: "100%",
+	flexWrap: "nowrap",
+	flexDirection: "row",
 };
 
 const HEADER_TITLE: TextStyle = {
@@ -65,7 +68,7 @@ const LIST_CONTAINER: ViewStyle = {
 	margin: 2,
 };
 const FLAT_LIST: ViewStyle = {
-	//paddingVertical: spacing[2],
+	paddingVertical: spacing[2],
 };
 const FOOTER: ViewStyle = {
 	height: "15%",
@@ -84,7 +87,7 @@ const FOOTER_CONTENT: ViewStyle = {
 	flexDirection: "row",
 };
 const TITLE_TEXT: TextStyle = {
-	fontSize: 40,
+	fontSize: 36,
 	textAlignVertical: "center",
 	alignSelf: "center",
 	color: color.textDark,
@@ -94,8 +97,8 @@ const FOOTER_CONTAINERS: ViewStyle = {
 	height: "50%",
 };
 
-function getTotal(products: Product[]): number {
-	return products.reduce((sum, a) => sum + a.count * a.price, 0);
+function getTotal(products: Product[], fee: number): number {
+	return products.reduce((sum, a) => sum + a.count * a.price, 0) + fee;
 }
 
 export const CalculatorScreen: FC<
@@ -104,7 +107,7 @@ export const CalculatorScreen: FC<
 	const goBack = () => navigation.navigate("welcome");
 	const { productStore } = useStores();
 	const { products } = productStore;
-
+	const [feeIncluded, setFeeIncluded] = useState(false);
 	useEffect(() => {
 		async function fetchData() {
 			await productStore.getProducts();
@@ -129,12 +132,36 @@ export const CalculatorScreen: FC<
 				<SafeAreaView style={SUBHEADER}>
 					<View style={SUBHEADER_CONTENT}>
 						<View style={SUBHEADER_CONTAINERS}>
-							<Text style={{ ...TITLE_TEXT, fontWeight: "bold" }}>
-								{"合計"}
-							</Text>
+							<CheckBox
+								style={{
+									height: "100%",
+									alignItems: "center",
+								}}
+								color={color.palette.blackBean}
+								value={feeIncluded}
+								onToggle={(newV) => {
+									setFeeIncluded(newV);
+								}}
+							/>
+							<Text style={TITLE_TEXT}>{"入會費"}</Text>
 						</View>
 						<View style={SUBHEADER_CONTAINERS}>
-							<Text style={TITLE_TEXT}>{getTotal(products)}</Text>
+							<Button
+								style={{
+									height: "80%",
+									width: "70%",
+									backgroundColor: color.palette.lightGrey,
+									alignSelf: "center",
+								}}
+								textStyle={{
+									...TITLE_TEXT,
+									position: "absolute",
+								}}
+								onPress={() =>
+									products.forEach((p) => p.clearCount())
+								}
+								text="清除"
+							/>
 						</View>
 					</View>
 				</SafeAreaView>
@@ -165,7 +192,12 @@ export const CalculatorScreen: FC<
 						</Text>
 					</View>
 					<View style={FOOTER_CONTAINERS}>
-						<Text style={TITLE_TEXT}>{getTotal(products)}</Text>
+						<Text style={TITLE_TEXT}>
+							{getTotal(
+								products,
+								feeIncluded ? productStore.membershipFee : 0
+							)}
+						</Text>
 					</View>
 				</View>
 			</SafeAreaView>

@@ -1,44 +1,49 @@
-import { StyleProp, ViewStyle } from "react-native"
-import { TxKeyPath } from "../../i18n"
+import { StyleProp, TextStyle, ViewStyle } from "react-native";
+import { TxKeyPath } from "../../i18n";
 
-export interface CheckboxProps {
-  /**
-   * Additional container style. Useful for margins.
-   */
-  style?: StyleProp<ViewStyle>
+export interface CheckBoxProps {
+	/**
+	 * Additional container style. Useful for margins.
+	 */
+	style?: StyleProp<ViewStyle>;
 
-  /**
-   * Additional outline style.
-   */
-  outlineStyle?: StyleProp<ViewStyle>
+	/**
+	 * color for checkbox fill.
+	 */
+	color?: string;
 
-  /**
-   * Additional fill style. Only visible when checked.
-   */
-  fillStyle?: StyleProp<ViewStyle>
+	/**
+	 * Additional fill style. Only visible when checked.
+	 */
+	fillStyle?: StyleProp<ViewStyle>;
 
-  /**
-   * Is the checkbox checked?
-   */
-  value?: boolean
+	/**
+	 * Additional fill style. Only visible when checked.
+	 */
+	labelStyle?: StyleProp<TextStyle>;
 
-  /**
-   * The text to display if there isn't a tx.
-   */
-  text?: string
+	/**
+	 * Is the checkbox checked?
+	 */
+	value?: boolean;
 
-  /**
-   * The i18n lookup key.
-   */
-  tx?: TxKeyPath
+	/**
+	 * The text to display if there isn't a tx.
+	 */
+	text?: string;
 
-  /**
-   * Multiline or clipped single line?
-   */
-  multiline?: boolean
+	/**
+	 * The i18n lookup key.
+	 */
+	tx?: TxKeyPath;
 
-  /**
-   * Fires when the user tabs to change the value.
-   */
-  onToggle?: (newValue: boolean) => void
+	/**
+	 * Multiline or clipped single line?
+	 */
+	multiline?: boolean;
+
+	/**
+	 * Fires when the user tabs to change the value.
+	 */
+	onToggle?: (newValue: boolean) => void;
 }
