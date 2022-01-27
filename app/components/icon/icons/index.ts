@@ -7,6 +7,7 @@ export const icons = {
   graph: require("./graph.png"),
   settings: require("./settings.png"),
   plus: require("./plus.png"),
+  minus: require("./minus.png"),
 }
 
 export type IconTypes = keyof typeof icons

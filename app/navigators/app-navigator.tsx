@@ -49,6 +49,14 @@ export const AppNavigator = (props: NavigationProps) => {
         screenOptions={{
           tabBarStyle: {
             backgroundColor: color.palette.rose,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.84,
+            elevation: 10,
           },
           tabBarShowLabel: false,
           headerShown: false,

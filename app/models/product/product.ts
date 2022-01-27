@@ -1,17 +1,27 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { Instance, SnapshotOut, types } from "mobx-state-tree";
 
 /**
  * Product model.
  */
-export const ProductModel = types.model("Product").props({
-  id: types.identifierNumber,
-  name: types.string,
-  price: types.number,
-  image: types.maybe(types.string),
-})
+export const ProductModel = types
+  .model("Product", {
+    id: types.identifierNumber,
+    name: types.string,
+    price: types.number,
+    image: types.maybe(types.string),
+    count: 0,
+  })
+  .actions((self) => ({
+    increment: () => {
+      self.count++;
+    },
+    decrement: () => {
+      if (self.count > 0) {
+        self.count--;
+      }
+    },
+  }));
 
-type ProductType = Instance<typeof ProductModel>
-export interface Product extends ProductType {}
-type ProductSnapshotType = SnapshotOut<typeof ProductModel>
-export interface ProductSnapshot extends ProductSnapshotType {}
+export interface Product extends Instance<typeof ProductModel> {}
+export interface ProductSnapshot extends SnapshotOut<typeof ProductModel> {}
 export const createProductDefaultModel = () => types.optional(ProductModel, {});
