@@ -23,8 +23,8 @@ const arrayOutlineStyle: ViewStyle[] = [
 const arrayFillStyle: ViewStyle[] = [{ backgroundColor: "#55e0ff" }];
 
 storiesOf("CheckBox", module)
-	.addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
-	.add("Behaviour", () => (
+	.addDecorator(fn => <StoryScreen>{fn()}</StoryScreen>)
+	.add("Behavior", () => (
 		<Story>
 			<UseCase
 				text="The CheckBox"

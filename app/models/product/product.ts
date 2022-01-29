@@ -10,8 +10,9 @@ export const ProductModel = types
 		price: types.number,
 		image: types.maybe(types.string),
 		count: 0,
+		PV: types.number,
 	})
-	.actions((self) => ({
+	.actions(self => ({
 		increment: () => {
 			self.count++;
 		},

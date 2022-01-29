@@ -6,11 +6,15 @@
  */
 import React from "react";
 import { useColorScheme } from "react-native";
-import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
+import {
+	NavigationContainer,
+	DefaultTheme,
+	DarkTheme,
+} from "@react-navigation/native";
 import { WelcomeScreen, CalculatorScreen } from "../screens";
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { color } from "../theme";
+import { color, shadowup } from "../theme";
 import { Icon } from "../components/icon/icon";
 
 /**
@@ -26,91 +30,85 @@ import { Icon } from "../components/icon/icon";
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type NavigatorParamList = {
-  welcome: undefined;
-  demo: undefined;
-  demoList: undefined;
-  calculator: undefined;
+	welcome: undefined;
+	demo: undefined;
+	demoList: undefined;
+	calculator: undefined;
 };
 
 const Tab = createBottomTabNavigator<NavigatorParamList>();
 
-interface NavigationProps extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
+interface NavigationProps
+	extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
 
 export const AppNavigator = (props: NavigationProps) => {
-  const colorScheme = useColorScheme();
-  useBackButtonHandler(canExit);
-  return (
-    <NavigationContainer
-      ref={navigationRef}
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-      {...props}
-    >
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: {
-            backgroundColor: color.palette.rose,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.25,
-            shadowRadius: 3.84,
-            elevation: 10,
-          },
-          tabBarShowLabel: false,
-          headerShown: false,
-        }}
-      >
-        <Tab.Screen
-          name="welcome"
-          component={WelcomeScreen}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Icon
-                icon="home"
-                style={{
-                  tintColor: color.palette.blackBean,
-                  opacity: focused ? 1 : 0.5,
-                  height: "60%",
-                  width: "60%",
-                }}
-                containerStyle={{
-                  height: "100%",
-                  width: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="calculator"
-          component={CalculatorScreen}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Icon
-                icon="calculator"
-                style={{
-                  tintColor: color.palette.blackBean,
-                  opacity: focused ? 1 : 0.5,
-                  height: "60%",
-                  width: "60%",
-                }}
-                containerStyle={{
-                  height: "100%",
-                  width: "100%",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              />
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
+	const colorScheme = useColorScheme();
+	useBackButtonHandler(canExit);
+	return (
+		<NavigationContainer
+			ref={navigationRef}
+			theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+			{...props}
+		>
+			<Tab.Navigator
+				screenOptions={{
+					tabBarStyle: {
+						backgroundColor: color.palette.rose,
+						...shadowup,
+					},
+					tabBarShowLabel: false,
+					headerShown: false,
+				}}
+			>
+				<Tab.Screen
+					name="welcome"
+					component={WelcomeScreen}
+					options={{
+						tabBarIcon: ({ focused }) => (
+							<Icon
+								icon="home"
+								style={{
+									tintColor: color.palette.blackBean,
+									opacity: focused ? 1 : 0.5,
+									height: "60%",
+									width: "60%",
+								}}
+								containerStyle={{
+									height: "100%",
+									width: "100%",
+									alignItems: "center",
+									justifyContent: "center",
+								}}
+							/>
+						),
+					}}
+				/>
+				<Tab.Screen
+					name="calculator"
+					component={CalculatorScreen}
+					options={{
+						tabBarIcon: ({ focused }) => (
+							<Icon
+								icon="calculator"
+								style={{
+									tintColor: color.palette.blackBean,
+									opacity: focused ? 1 : 0.5,
+									height: "60%",
+									width: "60%",
+								}}
+								containerStyle={{
+									height: "100%",
+									width: "100%",
+									alignItems: "center",
+									justifyContent: "center",
+								}}
+							/>
+						),
+					}}
+				/>
+			</Tab.Navigator>
+		</NavigationContainer>
+	);
 };
 
 AppNavigator.displayName = "AppNavigator";

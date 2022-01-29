@@ -8,13 +8,12 @@ import {
 	ViewStyle,
 	FlatList,
 } from "react-native";
-import { Checkbox } from "react-native-paper";
 import { Screen, Header, Text, Button, CheckBox } from "../../components";
 import { Card } from "../../components/card/card";
 import { useStores } from "../../models";
 import { Product } from "../../models/product/product";
 import { NavigatorParamList } from "../../navigators";
-import { color, spacing, shadow5, shadow10 } from "../../theme";
+import { color, spacing, shadow, shadowup } from "../../theme";
 
 const FULL: ViewStyle = {
 	flex: 1,
@@ -22,23 +21,26 @@ const FULL: ViewStyle = {
 
 const CONTAINER: ViewStyle = {
 	backgroundColor: color.palette.rose,
-	marginBottom: 15,
 };
 
 const HEADER: ViewStyle = {
 	paddingBottom: spacing[3] - 1,
 	paddingHorizontal: spacing[3],
 	paddingTop: spacing[3],
-	backgroundColor: color.palette.muave,
-	...shadow10,
+	backgroundColor: color.primary,
+	...shadow,
+	zIndex: 10,
+	elevation: 10,
 };
 
 const SUBHEADER: ViewStyle = {
-	height: "10%",
+	height: "8%",
 	backgroundColor: color.palette.rose,
-	...shadow5,
+	zIndex: 5,
 };
 const SUBHEADER_CONTENT: ViewStyle = {
+	...shadow,
+	elevation: 5,
 	marginBottom: -spacing[2],
 	marginLeft: spacing[1],
 	marginRight: spacing[1],
@@ -68,10 +70,11 @@ const LIST_CONTAINER: ViewStyle = {
 	margin: 2,
 };
 const FLAT_LIST: ViewStyle = {
-	paddingVertical: spacing[2],
+	paddingVertical: spacing[3],
+	zIndex: 1,
 };
 const FOOTER: ViewStyle = {
-	height: "15%",
+	height: "10%",
 	backgroundColor: color.palette.rose,
 };
 const FOOTER_CONTENT: ViewStyle = {
@@ -79,7 +82,8 @@ const FOOTER_CONTENT: ViewStyle = {
 	marginLeft: spacing[1],
 	marginRight: spacing[1],
 	backgroundColor: color.palette.roseDarker,
-	...shadow5,
+	...shadowup,
+	elevation: 5,
 	flex: 1,
 	borderTopLeftRadius: spacing[2],
 	borderTopRightRadius: spacing[2],
@@ -95,16 +99,20 @@ const TITLE_TEXT: TextStyle = {
 const FOOTER_CONTAINERS: ViewStyle = {
 	width: "50%",
 	height: "50%",
+	justifyContent: "center",
 };
 
-function getTotal(products: Product[], fee: number): number {
+function getTotalPrice(products: Product[], fee: number): number {
 	return products.reduce((sum, a) => sum + a.count * a.price, 0) + fee;
+}
+
+function getTotalPV(products: Product[]) {
+	return products.reduce((sum, a) => sum + a.count * a.PV, 0);
 }
 
 export const CalculatorScreen: FC<
 	StackScreenProps<NavigatorParamList, "calculator">
 > = observer(({ navigation }) => {
-	const goBack = () => navigation.navigate("welcome");
 	const { productStore } = useStores();
 	const { products } = productStore;
 	const [feeIncluded, setFeeIncluded] = useState(false);
@@ -120,14 +128,13 @@ export const CalculatorScreen: FC<
 			<Screen
 				style={CONTAINER}
 				preset="fixed"
-				backgroundColor={color.palette.rose}
+				backgroundColor={color.primary}
+				unsafe
 			>
 				<Header
 					headerTx="calculatorScreen.calculator"
 					style={HEADER}
 					titleStyle={HEADER_TITLE}
-					leftIcon="back"
-					onLeftPress={goBack}
 				/>
 				<SafeAreaView style={SUBHEADER}>
 					<View style={SUBHEADER_CONTENT}>
@@ -139,16 +146,17 @@ export const CalculatorScreen: FC<
 								}}
 								color={color.palette.blackBean}
 								value={feeIncluded}
-								onToggle={(newV) => {
+								onToggle={newV => {
 									setFeeIncluded(newV);
 								}}
+								labelStyle={TITLE_TEXT}
+								text={"入會費"}
 							/>
-							<Text style={TITLE_TEXT}>{"入會費"}</Text>
 						</View>
 						<View style={SUBHEADER_CONTAINERS}>
 							<Button
 								style={{
-									height: "80%",
+									height: "70%",
 									width: "70%",
 									backgroundColor: color.palette.lightGrey,
 									alignSelf: "center",
@@ -158,7 +166,7 @@ export const CalculatorScreen: FC<
 									position: "absolute",
 								}}
 								onPress={() =>
-									products.forEach((p) => p.clearCount())
+									products.forEach(p => p.clearCount())
 								}
 								text="清除"
 							/>
@@ -169,7 +177,7 @@ export const CalculatorScreen: FC<
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={FLAT_LIST}
 					data={[...products]}
-					keyExtractor={(item) => String(item.id)}
+					keyExtractor={item => String(item.id)}
 					numColumns={2}
 					horizontal={false}
 					renderItem={({ item }) => (
@@ -193,11 +201,14 @@ export const CalculatorScreen: FC<
 					</View>
 					<View style={FOOTER_CONTAINERS}>
 						<Text style={TITLE_TEXT}>
-							{getTotal(
+							{getTotalPrice(
 								products,
 								feeIncluded ? productStore.membershipFee : 0
 							)}
 						</Text>
+					</View>
+					<View style={FOOTER_CONTAINERS}>
+						<Text style={TITLE_TEXT}>{getTotalPV(products)}</Text>
 					</View>
 				</View>
 			</SafeAreaView>

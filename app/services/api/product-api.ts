@@ -18,6 +18,7 @@ export class ProductApi {
 					price: 20,
 					image: "",
 					count: 10,
+					PV: 200,
 				}) as Product,
 				ProductModel.create({
 					id: 2,
@@ -25,6 +26,7 @@ export class ProductApi {
 					price: 20,
 					image: "",
 					count: 10,
+					PV: 400,
 				}) as Product,
 				ProductModel.create({
 					id: 3,
@@ -32,6 +34,7 @@ export class ProductApi {
 					price: 30,
 					image: "",
 					count: 10,
+					PV: 500,
 				}) as Product,
 				ProductModel.create({
 					id: 4,
@@ -39,6 +42,7 @@ export class ProductApi {
 					price: 40,
 					image: "",
 					count: 10,
+					PV: 400,
 				}) as Product,
 				ProductModel.create({
 					id: 5,
@@ -46,6 +50,7 @@ export class ProductApi {
 					price: 50,
 					image: "",
 					count: 10,
+					PV: 1200,
 				}) as Product,
 				ProductModel.create({
 					id: 6,
@@ -53,6 +58,7 @@ export class ProductApi {
 					price: 60,
 					image: "",
 					count: 10,
+					PV: 1000,
 				}) as Product,
 				ProductModel.create({
 					id: 7,
@@ -60,6 +66,7 @@ export class ProductApi {
 					price: 70,
 					image: "",
 					count: 10,
+					PV: 2100,
 				}) as Product,
 			];
 

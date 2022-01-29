@@ -2,22 +2,16 @@ import React from "react";
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native";
 import { Button, Icon, Text } from "..";
 import { Product } from "../../models/product/product";
-import { color } from "../../theme";
+import { color, shadow } from "../../theme";
 
 type CardProps = { product: Product };
 
 const cardFillStyle: ViewStyle = {
 	backgroundColor: "#3d1308",
 	height: 146,
-	flex: 0.5,
 	borderRadius: 9,
-	shadowColor: "#000",
-	shadowOffset: {
-		width: 0,
-		height: 2,
-	},
-	shadowOpacity: 0.25,
-	shadowRadius: 3.84,
+	...shadow,
+	zIndex: 5,
 	elevation: 5,
 	margin: 2,
 };

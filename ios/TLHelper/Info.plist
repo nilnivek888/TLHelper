@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>HelloWorld</string>
+	<string>TLHelper</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -53,7 +53,6 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>sf-compact-display-medium-5864711817c30.otf</string>
 		<string>sf-compact-display-medium.otf</string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
