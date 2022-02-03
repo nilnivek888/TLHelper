@@ -74,7 +74,7 @@ const FLAT_LIST: ViewStyle = {
 	zIndex: 1,
 };
 const FOOTER: ViewStyle = {
-	height: "10%",
+	height: "12%",
 	backgroundColor: color.palette.rose,
 };
 const FOOTER_CONTENT: ViewStyle = {
@@ -146,7 +146,7 @@ export const CalculatorScreen: FC<
 								}}
 								color={color.palette.blackBean}
 								value={feeIncluded}
-								onToggle={newV => {
+								onToggle={(newV) => {
 									setFeeIncluded(newV);
 								}}
 								labelStyle={TITLE_TEXT}
@@ -156,8 +156,8 @@ export const CalculatorScreen: FC<
 						<View style={SUBHEADER_CONTAINERS}>
 							<Button
 								style={{
-									height: "70%",
-									width: "70%",
+									height: "75%",
+									width: "60%",
 									backgroundColor: color.palette.lightGrey,
 									alignSelf: "center",
 								}}
@@ -166,7 +166,7 @@ export const CalculatorScreen: FC<
 									position: "absolute",
 								}}
 								onPress={() =>
-									products.forEach(p => p.clearCount())
+									products.forEach((p) => p.clearCount())
 								}
 								text="清除"
 							/>
@@ -177,7 +177,7 @@ export const CalculatorScreen: FC<
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={FLAT_LIST}
 					data={[...products]}
-					keyExtractor={item => String(item.id)}
+					keyExtractor={(item) => String(item.id)}
 					numColumns={2}
 					horizontal={false}
 					renderItem={({ item }) => (

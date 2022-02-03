@@ -12,7 +12,6 @@ import {
 } from "react-native-safe-area-context";
 import { ScreenProps } from "./screen.props";
 import { isNonScrolling, offsets, presets } from "./screen.presets";
-import { color } from "../../theme";
 
 const isIos = Platform.OS === "ios";
 
@@ -33,7 +32,8 @@ function ScreenWithoutScrolling(props: ScreenProps) {
 			<View
 				style={{
 					flex: 0,
-					height: Platform.OS === "ios" ? 44 : 56,
+					height:
+						Platform.OS === "ios" ? 44 : StatusBar.currentHeight,
 					backgroundColor: props.backgroundColor,
 					zIndex: 5,
 				}}
