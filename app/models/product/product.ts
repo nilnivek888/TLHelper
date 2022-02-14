@@ -5,14 +5,15 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree";
  */
 export const ProductModel = types
 	.model("Product", {
-		id: types.identifierNumber,
+		id: types.string,
 		name: types.string,
+		displayName: types.maybe(types.string),
 		price: types.number,
 		image: types.maybe(types.string),
 		count: 0,
 		PV: types.number,
 	})
-	.actions(self => ({
+	.actions((self) => ({
 		increment: () => {
 			self.count++;
 		},

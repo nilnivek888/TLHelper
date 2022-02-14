@@ -1,18 +1,11 @@
 /* eslint-disable */
-import * as React from "react"
-import { storiesOf } from "@storybook/react-native"
-import { StoryScreen, Story, UseCase } from "../../../storybook/views"
-import { Card } from "./card"
+import * as React from "react";
+import { storiesOf } from "@storybook/react-native";
+import { StoryScreen, Story, UseCase } from "../../../storybook/views";
+import { Card } from "./card";
 
-declare let module
+declare let module;
 
 storiesOf("Card", module)
-  .addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
-  .add("Style Presets", () => (
-    <Story>
-      <UseCase text="2 column row" usage="Display 2 products">
-        <Card text="1"></Card>
-        <Card text="3"></Card>
-      </UseCase>
-    </Story>
-  ))
+	.addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
+	.add("Style Presets", () => <Story></Story>);

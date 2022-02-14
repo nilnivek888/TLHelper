@@ -4,6 +4,8 @@ import { Text } from "../text/text";
 import { spacing } from "../../theme";
 import { CheckBoxProps } from "./checkbox.props";
 import { Checkbox } from "react-native-paper";
+import { useStores } from "../../models";
+import { observer } from "mobx-react-lite";
 
 const ROOT: ViewStyle = {
 	flexDirection: "row",
@@ -11,24 +13,19 @@ const ROOT: ViewStyle = {
 	alignSelf: "flex-start",
 };
 
-export function CheckBox(props: CheckBoxProps) {
+export const CheckBox = observer((props: CheckBoxProps) => {
 	const numberOfLines = props.multiline ? 0 : 1;
 	const labelStyle = props.labelStyle;
 	const rootStyle = [ROOT, props.style];
-
-	const onPress = props.onToggle
-		? () => props.onToggle && props.onToggle(!props.value)
-		: null;
+	const { feeIncludedStore } = useStores();
+	const onPress = () => {
+		feeIncludedStore.toggle();
+	};
 
 	return (
-		<TouchableOpacity
-			activeOpacity={1}
-			disabled={!props.onToggle}
-			onPress={onPress}
-			style={rootStyle}
-		>
+		<TouchableOpacity activeOpacity={1} style={rootStyle}>
 			<Checkbox.Android
-				status={props.value ? "checked" : "unchecked"}
+				status={feeIncludedStore.feeIncluded ? "checked" : "unchecked"}
 				color={props.color}
 				onPress={onPress}
 			/>
@@ -39,4 +36,4 @@ export function CheckBox(props: CheckBoxProps) {
 			/>
 		</TouchableOpacity>
 	);
-}
+});

@@ -16,6 +16,7 @@ import { navigationRef, useBackButtonHandler } from "./navigation-utilities";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { color, shadowup } from "../theme";
 import { Icon } from "../components/icon/icon";
+import { GiftScreen } from "../screens/gift/gift-screen";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -34,6 +35,7 @@ export type NavigatorParamList = {
 	demo: undefined;
 	demoList: undefined;
 	calculator: undefined;
+	gift: undefined;
 };
 
 const Tab = createBottomTabNavigator<NavigatorParamList>();
@@ -61,12 +63,12 @@ export const AppNavigator = (props: NavigationProps) => {
 				}}
 			>
 				<Tab.Screen
-					name="welcome"
-					component={WelcomeScreen}
+					name="calculator"
+					component={CalculatorScreen}
 					options={{
 						tabBarIcon: ({ focused }) => (
 							<Icon
-								icon="home"
+								icon="calculator"
 								style={{
 									tintColor: color.palette.blackBean,
 									opacity: focused ? 1 : 0.5,
@@ -84,12 +86,12 @@ export const AppNavigator = (props: NavigationProps) => {
 					}}
 				/>
 				<Tab.Screen
-					name="calculator"
-					component={CalculatorScreen}
+					name="gift"
+					component={GiftScreen}
 					options={{
 						tabBarIcon: ({ focused }) => (
 							<Icon
-								icon="calculator"
+								icon="gift"
 								style={{
 									tintColor: color.palette.blackBean,
 									opacity: focused ? 1 : 0.5,

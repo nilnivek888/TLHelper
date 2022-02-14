@@ -42,6 +42,11 @@ export const viewPresets: Record<string, ViewStyle> = {
 		justifyContent: "center",
 		width: "25%",
 	} as ViewStyle,
+
+	card_Vertical: {
+		borderRadius: 4,
+		height: "25%",
+	} as ViewStyle,
 };
 
 export const textPresets: Record<ButtonPresetNames, TextStyle> = {

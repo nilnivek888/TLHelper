@@ -1,6 +1,7 @@
 import { GeneralApiProblem } from "./api-problem";
 import { Character } from "../../models/character/character";
 import { Product } from "../../models/product/product";
+import { Gift } from "../../models/gift/gift";
 
 export interface User {
 	id: number;
@@ -20,3 +21,5 @@ export type GetCharacterResult =
 export type GetProductsResult =
 	| { kind: "ok"; products: Product[]; membershipFee: number }
 	| GeneralApiProblem;
+
+export type GetGiftsResult = { kind: "ok"; gifts: Gift[] } | GeneralApiProblem;

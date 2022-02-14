@@ -1,82 +1,47 @@
 import { Api } from "./api";
 import { GetProductsResult } from "./api.types";
 import { Product, ProductModel } from "../../models/product/product";
+import firestore from "@react-native-firebase/firestore";
 
 export class ProductApi {
 	private api: Api;
-
 	constructor(api: Api) {
 		this.api = api;
 	}
 
 	async getProducts(): Promise<GetProductsResult> {
 		try {
-			const prds = [
-				ProductModel.create({
-					id: 1,
-					name: "1",
-					price: 20,
-					image: "",
-					count: 10,
-					PV: 200,
-				}) as Product,
-				ProductModel.create({
-					id: 2,
-					name: "2",
-					price: 20,
-					image: "",
-					count: 10,
-					PV: 400,
-				}) as Product,
-				ProductModel.create({
-					id: 3,
-					name: "3",
-					price: 30,
-					image: "",
-					count: 10,
-					PV: 500,
-				}) as Product,
-				ProductModel.create({
-					id: 4,
-					name: "4",
-					price: 40,
-					image: "",
-					count: 10,
-					PV: 400,
-				}) as Product,
-				ProductModel.create({
-					id: 5,
-					name: "5",
-					price: 50,
-					image: "",
-					count: 10,
-					PV: 1200,
-				}) as Product,
-				ProductModel.create({
-					id: 6,
-					name: "6",
-					price: 60,
-					image: "",
-					count: 10,
-					PV: 1000,
-				}) as Product,
-				ProductModel.create({
-					id: 7,
-					name: "7",
-					price: 70,
-					image: "",
-					count: 10,
-					PV: 2100,
-				}) as Product,
-			];
+			const prds = [];
+			const prdsCollection = firestore().collection("Products");
+			const snapshot = await prdsCollection.get();
+			let fee = 0;
+			if (snapshot.empty) {
+				console.log("No documents.");
+			}
+			snapshot.forEach((doc) => {
+				if (doc.id === "fee") {
+					fee = doc.data().price;
+					return;
+				}
+				prds.push(
+					ProductModel.create({
+						id: doc.id,
+						name: doc.data().name,
+						displayName: doc.data().displayName,
+						price: doc.data().price,
+						count: 0,
+						PV: doc.data().PV,
+					}) as Product
+				);
+			});
 
 			return {
 				kind: "ok",
 				products: prds,
-				membershipFee: 200,
+				membershipFee: fee,
 			};
 		} catch (e) {
-			__DEV__ && console.tron.log(e.message);
+			__DEV__ && console.log(e.message);
 			return { kind: "bad-data" };
 		}
 	}
