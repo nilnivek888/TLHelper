@@ -2,6 +2,7 @@ import React from "react";
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Button, Icon, Text } from "..";
+import { useStores } from "../../models";
 import { Gift } from "../../models/gift/gift";
 import { color, shadow } from "../../theme";
 
@@ -83,6 +84,8 @@ const disabledStyles: ViewStyle = {
  */
 export function CardGift(props: CardGiftProps) {
 	const product = props.gift;
+	const { productStore, giftStore } = useStores();
+
 	return (
 		<View style={[cardFillStyle, props.disabled && disabledStyles]}>
 			<TouchableOpacity
@@ -116,7 +119,15 @@ export function CardGift(props: CardGiftProps) {
 			</TouchableOpacity>
 
 			<View style={counterFillStyle}>
-				<Button preset="card_Vertical" onPress={product.increment}>
+				<Button
+					preset="card_Vertical"
+					onPress={product.increment}
+					disabled={
+						props.disabled ||
+						productStore.totalPV - giftStore.totalPVCost <
+							product.PVCost
+					}
+				>
 					<Icon
 						icon="plus"
 						style={iconStyle}
@@ -127,7 +138,11 @@ export function CardGift(props: CardGiftProps) {
 				<View style={flexWrapStyle}>
 					<Text style={counterTextStyle}> {product.count}</Text>
 				</View>
-				<Button preset="card_Vertical" onPress={product.decrement}>
+				<Button
+					preset="card_Vertical"
+					onPress={product.decrement}
+					disabled={props.disabled || product.count === 0}
+				>
 					<Icon
 						icon="minus"
 						style={iconStyle}

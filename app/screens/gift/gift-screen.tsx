@@ -11,7 +11,6 @@ import {
 import { Screen, Header, Text } from "../../components";
 import { CardGift } from "../../components/cardGift/cardGift";
 import { useStores } from "../../models";
-import { Gift } from "../../models/gift/gift";
 import { NavigatorParamList } from "../../navigators";
 import { color, spacing, shadow, shadowup } from "../../theme";
 
@@ -43,7 +42,8 @@ const LIST_CONTAINER: ViewStyle = {
 	margin: 2,
 };
 const FLAT_LIST: ViewStyle = {
-	paddingVertical: spacing[3],
+	paddingTop: 0,
+	paddingBottom: spacing[7],
 	zIndex: 1,
 };
 const FOOTER: ViewStyle = {
@@ -74,23 +74,6 @@ const FOOTER_CONTAINERS: ViewStyle = {
 	height: "50%",
 	justifyContent: "center",
 };
-
-function getTotalValue(gifts: Gift[]): number {
-	return gifts.reduce((sum, a) => sum + a.count * a.value, 0);
-}
-
-function getRemainingPV(gifts: Gift[]) {
-	return gifts.reduce((sum, a) => sum + a.count * a.PVCost, 0);
-}
-
-type TotalProps = {
-	style: TextStyle;
-	gifts: Gift[];
-};
-
-const Total = observer((props: TotalProps) => {
-	return <Text style={props.style}>{getTotalValue(props.gifts)}</Text>;
-});
 
 export const GiftScreen: FC<
 	StackScreenProps<NavigatorParamList, "gift">
@@ -126,7 +109,10 @@ export const GiftScreen: FC<
 					horizontal={false}
 					renderItem={({ item }) => (
 						<View style={LIST_CONTAINER}>
-							<CardGift gift={item} />
+							<CardGift
+								gift={item}
+								disabled={productStore.totalPV < item.PVCost}
+							/>
 						</View>
 					)}
 				></FlatList>
@@ -144,10 +130,12 @@ export const GiftScreen: FC<
 						</Text>
 					</View>
 					<View style={FOOTER_CONTAINERS}>
-						<Total style={TITLE_TEXT} gifts={gifts} />
+						<Text style={TITLE_TEXT}>{giftStore.totalValue}</Text>
 					</View>
 					<View style={FOOTER_CONTAINERS}>
-						<Text style={TITLE_TEXT}>{getRemainingPV(gifts)}</Text>
+						<Text style={TITLE_TEXT}>
+							{productStore.totalPV - giftStore.totalPVCost}
+						</Text>
 					</View>
 				</View>
 			</SafeAreaView>

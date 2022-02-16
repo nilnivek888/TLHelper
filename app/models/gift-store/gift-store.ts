@@ -25,6 +25,14 @@ export const GiftStoreModel = types
 				__DEV__ && console.tron.log(result.kind);
 			}
 		},
+	}))
+	.views((self) => ({
+		get totalPVCost() {
+			return self.gifts.reduce((sum, a) => sum + a.count * a.PVCost, 0);
+		},
+		get totalValue() {
+			return self.gifts.reduce((sum, a) => sum + a.count * a.value, 0);
+		},
 	}));
 
 type GiftStoreType = Instance<typeof GiftStoreModel>;

@@ -11,7 +11,7 @@ import {
 import { Screen, Header, Text, Button, CheckBox } from "../../components";
 import { Card } from "../../components/card/card";
 import { useStores } from "../../models";
-import { Product } from "../../models/product/product";
+import { ProductStore } from "../../models/product-store/product-store";
 import { NavigatorParamList } from "../../navigators";
 import { color, spacing, shadow, shadowup } from "../../theme";
 
@@ -70,7 +70,8 @@ const LIST_CONTAINER: ViewStyle = {
 	margin: 2,
 };
 const FLAT_LIST: ViewStyle = {
-	paddingVertical: spacing[3],
+	paddingTop: spacing[2],
+	paddingBottom: spacing[7],
 	zIndex: 1,
 };
 const FOOTER: ViewStyle = {
@@ -102,26 +103,21 @@ const FOOTER_CONTAINERS: ViewStyle = {
 	justifyContent: "center",
 };
 
-function getTotalPrice(products: Product[], fee: number): number {
-	return products.reduce((sum, a) => sum + a.count * a.price, 0) + fee;
-}
-
-function getTotalPV(products: Product[]) {
-	return products.reduce((sum, a) => sum + a.count * a.PV, 0);
+function getTotalPrice(productStore: ProductStore, fee: number): number {
+	return productStore.totalPrice + fee;
 }
 
 type TotalProps = {
 	style: TextStyle;
-	products: Product[];
 	fee: number;
 };
 
 const Total = observer((props: TotalProps) => {
-	const { feeIncludedStore } = useStores();
+	const { feeIncludedStore, productStore } = useStores();
 	return (
 		<Text style={props.style}>
 			{getTotalPrice(
-				props.products,
+				productStore,
 				feeIncludedStore.feeIncluded ? props.fee : 0
 			)}
 		</Text>
@@ -195,10 +191,10 @@ export const CalculatorScreen: FC<
 					horizontal={false}
 					renderItem={({ item }) => (
 						<View style={LIST_CONTAINER}>
-							<Card product={item} count={item.count} />
+							<Card product={item} />
 						</View>
 					)}
-				></FlatList>
+				/>
 			</Screen>
 			<SafeAreaView style={FOOTER}>
 				<View style={FOOTER_CONTENT}>
@@ -216,11 +212,10 @@ export const CalculatorScreen: FC<
 						<Total
 							style={TITLE_TEXT}
 							fee={productStore.membershipFee}
-							products={products}
 						/>
 					</View>
 					<View style={FOOTER_CONTAINERS}>
-						<Text style={TITLE_TEXT}>{getTotalPV(products)}</Text>
+						<Text style={TITLE_TEXT}>{productStore.totalPV}</Text>
 					</View>
 				</View>
 			</SafeAreaView>

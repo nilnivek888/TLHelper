@@ -1,3 +1,4 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -5,7 +6,7 @@ import { Button, Icon, Text } from "..";
 import { Product } from "../../models/product/product";
 import { color, shadow } from "../../theme";
 
-type CardProps = { product: Product; count: number };
+type CardProps = { product: Product };
 
 const cardFillStyle: ViewStyle = {
 	backgroundColor: color.palette.blackBean,
@@ -74,7 +75,7 @@ const iconContainerStyle: ViewStyle = {
  *  A component consisting of 3 buttons and 2 short texts (less than 10 characters)
  *  This component will hold Item ID, Item count, plus button, minus button, item button
  */
-export const Card: React.FC<CardProps> = React.memo((props: CardProps) => {
+export const Card: React.FC<CardProps> = observer((props: CardProps) => {
 	const product = props.product;
 	console.log("card rendered");
 	return (
@@ -93,7 +94,11 @@ export const Card: React.FC<CardProps> = React.memo((props: CardProps) => {
 			</TouchableOpacity>
 
 			<View style={counterFillStyle}>
-				<Button preset="card" onPress={product.decrement}>
+				<Button
+					preset="card"
+					onPress={product.decrement}
+					disabled={product.count === 0}
+				>
 					<Icon
 						icon="minus"
 						style={iconStyle}
@@ -102,7 +107,7 @@ export const Card: React.FC<CardProps> = React.memo((props: CardProps) => {
 				</Button>
 
 				<View style={flexWrapStyle}>
-					<Text style={counterTextStyle}> {props.count}</Text>
+					<Text style={counterTextStyle}> {props.product.count}</Text>
 				</View>
 				<Button preset="card" onPress={product.increment}>
 					<Icon

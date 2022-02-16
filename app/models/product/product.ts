@@ -18,9 +18,7 @@ export const ProductModel = types
 			self.count++;
 		},
 		decrement: () => {
-			if (self.count > 0) {
-				self.count--;
-			}
+			self.count--;
 		},
 		clearCount: () => {
 			self.count = 0;

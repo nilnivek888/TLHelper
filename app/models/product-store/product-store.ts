@@ -27,6 +27,14 @@ export const ProductStoreModel = types
 				__DEV__ && console.tron.log(result.kind);
 			}
 		},
+	}))
+	.views((self) => ({
+		get totalPV() {
+			return self.products.reduce((sum, a) => sum + a.count * a.PV, 0);
+		},
+		get totalPrice() {
+			return self.products.reduce((sum, a) => sum + a.count * a.price, 0);
+		},
 	}));
 
 type ProductStoreType = Instance<typeof ProductStoreModel>;
