@@ -19,7 +19,7 @@ const FULL: ViewStyle = {
 };
 
 const CONTAINER: ViewStyle = {
-	backgroundColor: color.palette.rose,
+	backgroundColor: color.lightText,
 };
 
 const HEADER: ViewStyle = {
@@ -38,23 +38,23 @@ const HEADER_TITLE: TextStyle = {
 	textAlign: "center",
 };
 const LIST_CONTAINER: ViewStyle = {
-	flex: 0.5,
-	margin: 2,
+	margin: 1,
 };
 const FLAT_LIST: ViewStyle = {
-	paddingTop: 0,
+	paddingTop: spacing[1],
 	paddingBottom: spacing[7],
+	marginHorizontal: spacing[1],
 	zIndex: 1,
 };
 const FOOTER: ViewStyle = {
 	height: "12%",
-	backgroundColor: color.palette.rose,
+	backgroundColor: color.lightText,
 };
 const FOOTER_CONTENT: ViewStyle = {
 	marginTop: -spacing[2],
 	marginLeft: spacing[1],
 	marginRight: spacing[1],
-	backgroundColor: color.palette.roseDarker,
+	backgroundColor: color.lightDarker,
 	...shadowup,
 	elevation: 5,
 	flex: 1,

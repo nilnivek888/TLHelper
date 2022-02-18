@@ -11,7 +11,7 @@ import {
 	DefaultTheme,
 	DarkTheme,
 } from "@react-navigation/native";
-import { WelcomeScreen, CalculatorScreen } from "../screens";
+import { CalculatorScreen } from "../screens";
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { color, shadowup } from "../theme";
@@ -55,8 +55,10 @@ export const AppNavigator = (props: NavigationProps) => {
 			<Tab.Navigator
 				screenOptions={{
 					tabBarStyle: {
-						backgroundColor: color.palette.rose,
+						backgroundColor: color.primary,
 						...shadowup,
+						elevation: 10,
+						zIndex: 10,
 					},
 					tabBarShowLabel: false,
 					headerShown: false,
@@ -70,7 +72,7 @@ export const AppNavigator = (props: NavigationProps) => {
 							<Icon
 								icon="calculator"
 								style={{
-									tintColor: color.palette.blackBean,
+									tintColor: color.primaryDarker,
 									opacity: focused ? 1 : 0.5,
 									height: "60%",
 									width: "60%",
@@ -93,7 +95,7 @@ export const AppNavigator = (props: NavigationProps) => {
 							<Icon
 								icon="gift"
 								style={{
-									tintColor: color.palette.blackBean,
+									tintColor: color.primaryDarker,
 									opacity: focused ? 1 : 0.5,
 									height: "60%",
 									width: "60%",

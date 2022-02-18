@@ -25,6 +25,11 @@ export const GiftStoreModel = types
 				__DEV__ && console.tron.log(result.kind);
 			}
 		},
+		clear: () => {
+			self.gifts.forEach((g) => {
+				g.clearCount();
+			});
+		},
 	}))
 	.views((self) => ({
 		get totalPVCost() {

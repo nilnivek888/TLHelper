@@ -16,14 +16,10 @@ const arrayStyle: ViewStyle[] = [
 	{ paddingVertical: 40 },
 	{ alignSelf: "flex-end" },
 ];
-const arrayOutlineStyle: ViewStyle[] = [
-	{ borderColor: "#b443c9" },
-	{ borderWidth: 25 },
-];
 const arrayFillStyle: ViewStyle[] = [{ backgroundColor: "#55e0ff" }];
 
 storiesOf("CheckBox", module)
-	.addDecorator(fn => <StoryScreen>{fn()}</StoryScreen>)
+	.addDecorator((fn) => <StoryScreen>{fn()}</StoryScreen>)
 	.add("Behavior", () => (
 		<Story>
 			<UseCase
@@ -144,10 +140,7 @@ storiesOf("CheckBox", module)
 						width: "100%",
 					}}
 				>
-					<Checkbox
-						color={color.palette.blackBean}
-						status={"checked"}
-					/>
+					<Checkbox color={color.primaryDarker} status={"checked"} />
 				</View>
 			</UseCase>
 		</Story>

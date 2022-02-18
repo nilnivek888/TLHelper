@@ -9,7 +9,7 @@ import { color, shadow } from "../../theme";
 type CardProps = { product: Product };
 
 const cardFillStyle: ViewStyle = {
-	backgroundColor: color.palette.blackBean,
+	backgroundColor: color.primaryDarker,
 	height: 146,
 	borderRadius: 9,
 	...shadow,
@@ -42,6 +42,7 @@ const counterFillStyle: ViewStyle = {
 const counterTextStyle: TextStyle = {
 	fontSize: 54,
 	width: "100%",
+	color: color.textDark,
 	textAlignVertical: "center",
 	textAlign: "center",
 	alignSelf: "center",
@@ -60,7 +61,7 @@ const flexWrapStyle: ViewStyle = {
 const iconStyle: ImageStyle = {
 	height: "90%",
 	width: "90%",
-	tintColor: color.palette.rose,
+	tintColor: color.lightText,
 };
 
 const iconContainerStyle: ViewStyle = {

@@ -1,4 +1,4 @@
-import { palette } from "./palette"
+import { palette } from "./palette";
 
 /**
  * Roles for colors.  Prefer using these over the palette.  It makes it easier
@@ -10,59 +10,72 @@ import { palette } from "./palette"
  * put that in the <Spinner /> component.
  */
 export const color = {
-  /**
-   * The palette is available to use, but prefer using the name.
-   */
-  palette,
-  /**
-   * A helper for making something see-thru. Use sparingly as many layers of transparency
-   * can cause older Android devices to slow down due to the excessive compositing required
-   * by their under-powered GPUs.
-   */
-  transparent: "rgba(0, 0, 0, 0)",
-  /**
-   * The screen background.
-   */
-  background: palette.white,
-  /**
-   * The main tinting color.
-   */
-  primary: palette.muave,
-  /**
-   * The main tinting color, but darker.
-   */
-  primaryDarker: palette.muaveDarker,
-  /**
-   * A subtle color used for borders and lines.
-   */
-  line: palette.offWhite,
-  /**
-   * The default color of text in many components.
-   */
-  text: palette.rose,
-  /**
-   * The default color of text in light background.
-   */
-  textDark: palette.blackBean,
-  /**
-   * Secondary information.
-   */
-  dim: palette.lightGrey,
-  /**
-   * Error messages and icons.
-   */
-  error: palette.angry,
+	/**
+	 * The palette is available to use, but prefer using the name.
+	 */
+	palette,
+	/**
+	 * A helper for making something see-thru. Use sparingly as many layers of transparency
+	 * can cause older Android devices to slow down due to the excessive compositing required
+	 * by their under-powered GPUs.
+	 */
+	transparent: "rgba(0, 0, 0, 0)",
+	/**
+	 * The screen background.
+	 */
+	background: palette.offWhite,
+	/**
+	 * The main tinting color.
+	 */
+	primary: palette.green,
+	/**
+	 * The main tinting color, but darker.
+	 */
+	primaryDarker: palette.greenDarker,
+	/**
+	 * The main accent color for important stuff
+	 */
+	accent: palette.orange,
+	/**
+	 * The main accent color for important stuff, but darker
+	 */
+	accentDarker: palette.orangeDarker,
 
-  /**
-   * Storybook background for Text stories, or any stories where
-   * the text color is color.text, which is white by default, and does not show
-   * in Stories against the default white background
-   */
-  storybookDarkBg: palette.black,
+	/**
+	 * A subtle color used for borders and lines.
+	 */
+	line: palette.offWhite,
+	/**
+	 * The default color of text in many components.
+	 */
+	lightText: palette.offWhite,
+	/**
+	 * The slightly darker version of above.
+	 */
+	lightDarker: palette.green,
+	/**
+	 * The default color of text in light background.
+	 */
+	textDark: palette.greenDarker,
+	/**
+	 * Secondary information.
+	 */
+	dim: palette.lightGrey,
+	/**
+	 * Error messages and icons.
+	 */
+	error: palette.angry,
 
-  /**
-   * Storybook text color for stories that display Text components against the
-   * white background
-   */
-  storybookTextColor: palette.black,
-}
+	/**
+	 * Storybook background for Text stories, or any stories where
+	 * the text color is color.light, which is white by default, and does not show
+	 * in Stories against the default white background
+	 */
+	storybookDarkBg: palette.black,
+
+	/**
+	 * Storybook text color for stories that display Text components against the
+	 * white background
+	 */
+	storybookTextColor: palette.black,
+};

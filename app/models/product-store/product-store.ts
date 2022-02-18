@@ -27,6 +27,9 @@ export const ProductStoreModel = types
 				__DEV__ && console.tron.log(result.kind);
 			}
 		},
+		clear: () => {
+			self.products.forEach((p) => p.clearCount());
+		},
 	}))
 	.views((self) => ({
 		get totalPV() {

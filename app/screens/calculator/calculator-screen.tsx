@@ -20,7 +20,7 @@ const FULL: ViewStyle = {
 };
 
 const CONTAINER: ViewStyle = {
-	backgroundColor: color.palette.rose,
+	backgroundColor: color.lightText,
 };
 
 const HEADER: ViewStyle = {
@@ -35,7 +35,7 @@ const HEADER: ViewStyle = {
 
 const SUBHEADER: ViewStyle = {
 	height: "8%",
-	backgroundColor: color.palette.rose,
+	backgroundColor: color.lightText,
 	zIndex: 5,
 };
 const SUBHEADER_CONTENT: ViewStyle = {
@@ -49,7 +49,7 @@ const SUBHEADER_CONTENT: ViewStyle = {
 	borderBottomRightRadius: spacing[2],
 	flexWrap: "wrap",
 	flexDirection: "row",
-	backgroundColor: color.palette.roseDarker,
+	backgroundColor: color.lightDarker,
 };
 const SUBHEADER_CONTAINERS: ViewStyle = {
 	flex: 1,
@@ -67,22 +67,22 @@ const HEADER_TITLE: TextStyle = {
 };
 const LIST_CONTAINER: ViewStyle = {
 	flex: 0.5,
-	margin: 2,
 };
 const FLAT_LIST: ViewStyle = {
 	paddingTop: spacing[2],
 	paddingBottom: spacing[7],
+	marginHorizontal: spacing[1],
 	zIndex: 1,
 };
 const FOOTER: ViewStyle = {
 	height: "12%",
-	backgroundColor: color.palette.rose,
+	backgroundColor: color.lightText,
 };
 const FOOTER_CONTENT: ViewStyle = {
 	marginTop: -spacing[2],
 	marginLeft: spacing[1],
 	marginRight: spacing[1],
-	backgroundColor: color.palette.roseDarker,
+	backgroundColor: color.lightDarker,
 	...shadowup,
 	elevation: 5,
 	flex: 1,
@@ -127,7 +127,7 @@ const Total = observer((props: TotalProps) => {
 export const CalculatorScreen: FC<
 	StackScreenProps<NavigatorParamList, "calculator">
 > = observer(({ navigation }) => {
-	const { productStore } = useStores();
+	const { productStore, giftStore } = useStores();
 	const { products } = productStore;
 	useEffect(() => {
 		async function fetchData() {
@@ -157,7 +157,7 @@ export const CalculatorScreen: FC<
 									height: "100%",
 									alignItems: "center",
 								}}
-								color={color.palette.blackBean}
+								color={color.primaryDarker}
 								labelStyle={TITLE_TEXT}
 								text={"入會費"}
 							/>
@@ -165,18 +165,21 @@ export const CalculatorScreen: FC<
 						<View style={SUBHEADER_CONTAINERS}>
 							<Button
 								style={{
-									height: "70%",
-									width: "60%",
-									backgroundColor: color.palette.lightGrey,
+									height: "75%",
+									width: "50%",
 									alignSelf: "center",
+									backgroundColor: color.palette.greenMid,
 								}}
 								textStyle={{
 									...TITLE_TEXT,
 									position: "absolute",
+									color: color.textDark,
+									paddingHorizontal: 0,
 								}}
-								onPress={() =>
-									products.forEach((p) => p.clearCount())
-								}
+								onPress={() => {
+									productStore.clear();
+									giftStore.clear();
+								}}
 								text="清除"
 							/>
 						</View>

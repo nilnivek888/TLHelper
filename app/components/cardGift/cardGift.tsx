@@ -1,6 +1,6 @@
+import { observer } from "mobx-react-lite";
 import React from "react";
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Button, Icon, Text } from "..";
 import { useStores } from "../../models";
 import { Gift } from "../../models/gift/gift";
@@ -9,13 +9,14 @@ import { color, shadow } from "../../theme";
 type CardGiftProps = { gift: Gift; disabled?: boolean };
 
 const cardFillStyle: ViewStyle = {
-	backgroundColor: color.palette.blackBean,
+	backgroundColor: color.primaryDarker,
 	flexDirection: "row",
 	height: 146,
 	borderRadius: 9,
 	...shadow,
 	zIndex: 5,
-	margin: 2,
+	marginVertical: 1,
+	width: "100%",
 };
 const cardTextStyle: TextStyle = {
 	fontSize: 44,
@@ -58,7 +59,7 @@ const flexWrapStyle: ViewStyle = {
 const iconStyle: ImageStyle = {
 	height: "90%",
 	width: "90%",
-	tintColor: color.palette.rose,
+	tintColor: color.lightText,
 };
 
 const iconContainerStyle: ViewStyle = {
@@ -82,74 +83,93 @@ const disabledStyles: ViewStyle = {
  *  A component consisting of 3 buttons and 2 short texts (less than 10 characters)
  *  This component will hold Item ID, Item count, plus button, minus button, item button
  */
-export function CardGift(props: CardGiftProps) {
-	const product = props.gift;
-	const { productStore, giftStore } = useStores();
+export const CardGift: React.FC<CardGiftProps> = observer(
+	(props: CardGiftProps) => {
+		const gift = props.gift;
+		const { productStore, giftStore } = useStores();
 
-	return (
-		<View style={[cardFillStyle, props.disabled && disabledStyles]}>
-			<TouchableOpacity
-				style={{
-					height: "100%",
-					width: "95%",
-					flex: 0,
-					justifyContent: "space-between",
-					flexDirection: "column",
-				}}
-				activeOpacity={1}
-			>
-				<Text
-					style={{ ...cardTextStyle, alignSelf: "flex-start" }}
-					adjustsFontSizeToFit
-					numberOfLines={1}
-				>
-					{product.name}
-				</Text>
-				<Text
+		return (
+			<View style={[cardFillStyle, props.disabled && disabledStyles]}>
+				<View
 					style={{
-						...cardTextStyle,
-						fontSize: 32,
-						alignSelf: "flex-start",
+						height: "100%",
+						width: "90%",
+						justifyContent: "space-between",
+						flexDirection: "column",
+						flex: 0,
 					}}
-					adjustsFontSizeToFit
-					numberOfLines={2}
 				>
-					{`價值:$${product.value}\nPV:${product.PVCost}`}
-				</Text>
-			</TouchableOpacity>
+					<View style={{ flex: 1, justifyContent: "center" }}>
+						<Text
+							style={{
+								...cardTextStyle,
+								fontSize: 40,
+								alignSelf: "flex-start",
+							}}
+							adjustsFontSizeToFit
+							numberOfLines={1}
+						>
+							{gift.name}
+						</Text>
+					</View>
 
-			<View style={counterFillStyle}>
-				<Button
-					preset="card_Vertical"
-					onPress={product.increment}
-					disabled={
-						props.disabled ||
-						productStore.totalPV - giftStore.totalPVCost <
-							product.PVCost
-					}
-				>
-					<Icon
-						icon="plus"
-						style={iconStyle}
-						containerStyle={iconContainerStyle}
-					/>
-				</Button>
-
-				<View style={flexWrapStyle}>
-					<Text style={counterTextStyle}> {product.count}</Text>
+					<Text
+						style={{
+							...cardTextStyle,
+							fontSize: 20,
+							textAlign: "left",
+							alignSelf: "flex-start",
+						}}
+						adjustsFontSizeToFit
+						numberOfLines={2}
+					>
+						{`價值:$${gift.value}
+PV:${gift.PVCost}`}
+					</Text>
 				</View>
-				<Button
-					preset="card_Vertical"
-					onPress={product.decrement}
-					disabled={props.disabled || product.count === 0}
-				>
-					<Icon
-						icon="minus"
-						style={iconStyle}
-						containerStyle={iconContainerStyle}
-					/>
-				</Button>
+
+				<View style={counterFillStyle}>
+					<Button
+						preset="card_Vertical"
+						onPress={gift.increment}
+						disabled={
+							props.disabled ||
+							productStore.totalPV - giftStore.totalPVCost <
+								gift.PVCost
+						}
+					>
+						<Icon
+							icon="plus"
+							style={iconStyle}
+							containerStyle={{
+								...iconContainerStyle,
+								opacity:
+									!props.disabled &&
+									productStore.totalPV -
+										giftStore.totalPVCost <
+										gift.PVCost
+										? 0
+										: 1,
+							}}
+						/>
+					</Button>
+
+					<View style={flexWrapStyle}>
+						<Text style={counterTextStyle}> {gift.count}</Text>
+					</View>
+					<Button
+						preset="card_Vertical"
+						onPress={gift.decrement}
+						disabled={props.disabled || gift.count === 0}
+					>
+						<Icon
+							icon="minus"
+							style={iconStyle}
+							containerStyle={iconContainerStyle}
+						/>
+					</Button>
+				</View>
 			</View>
-		</View>
-	);
-}
+		);
+	}
+);
