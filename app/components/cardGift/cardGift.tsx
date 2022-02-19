@@ -1,6 +1,7 @@
+import I18n from "i18n-js";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native";
+import { Alert, ImageStyle, TextStyle, View, ViewStyle } from "react-native";
 import { Button, Icon, Text } from "..";
 import { useStores } from "../../models";
 import { Gift } from "../../models/gift/gift";
@@ -131,31 +132,41 @@ PV:${gift.PVCost}`}
 				<View style={counterFillStyle}>
 					<Button
 						preset="card_Vertical"
-						onPress={gift.increment}
-						disabled={
-							props.disabled ||
-							productStore.totalPV - giftStore.totalPVCost <
+						onPress={() => {
+							if (
+								productStore.totalPV - giftStore.totalPVCost <
 								gift.PVCost
-						}
+							) {
+								Alert.alert(
+									I18n.t("errors.insufficientPV", {
+										PV:
+											gift.PVCost -
+											productStore.totalPV +
+											giftStore.totalPVCost,
+									}),
+									"",
+									[{ text: "OK" }]
+								);
+							} else {
+								gift.increment();
+							}
+						}}
+						disabled={props.disabled}
 					>
 						<Icon
 							icon="plus"
 							style={iconStyle}
 							containerStyle={{
 								...iconContainerStyle,
-								opacity:
-									!props.disabled &&
-									productStore.totalPV -
-										giftStore.totalPVCost <
-										gift.PVCost
-										? 0
-										: 1,
 							}}
 						/>
 					</Button>
 
 					<View style={flexWrapStyle}>
-						<Text style={counterTextStyle}> {gift.count}</Text>
+						<Text adjustsFontSizeToFit style={counterTextStyle}>
+							{" "}
+							{gift.count}
+						</Text>
 					</View>
 					<Button
 						preset="card_Vertical"

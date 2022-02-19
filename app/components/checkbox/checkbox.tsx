@@ -30,6 +30,7 @@ export const CheckBox = observer((props: CheckBoxProps) => {
 				onPress={onPress}
 			/>
 			<Text
+				adjustsFontSizeToFit
 				text={props.text}
 				numberOfLines={numberOfLines}
 				style={labelStyle}

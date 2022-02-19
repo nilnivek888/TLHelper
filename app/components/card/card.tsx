@@ -3,6 +3,7 @@ import React from "react";
 import { ImageStyle, TextStyle, View, ViewStyle } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Button, Icon, Text } from "..";
+import { useStores } from "../../models";
 import { Product } from "../../models/product/product";
 import { color, shadow } from "../../theme";
 
@@ -78,7 +79,7 @@ const iconContainerStyle: ViewStyle = {
  */
 export const Card: React.FC<CardProps> = observer((props: CardProps) => {
 	const product = props.product;
-	console.log("card rendered");
+	const { giftStore } = useStores();
 	return (
 		<View style={cardFillStyle}>
 			<TouchableOpacity
@@ -97,7 +98,10 @@ export const Card: React.FC<CardProps> = observer((props: CardProps) => {
 			<View style={counterFillStyle}>
 				<Button
 					preset="card"
-					onPress={product.decrement}
+					onPress={() => {
+						product.decrement();
+						giftStore.clear();
+					}}
 					disabled={product.count === 0}
 				>
 					<Icon

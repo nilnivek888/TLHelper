@@ -9,6 +9,7 @@ export const icons = {
 	plus: require("./plus.png"),
 	minus: require("./minus.png"),
 	gift: require("./giftbox.png"),
+	bag: require("./bag.png"),
 };
 
 export type IconTypes = keyof typeof icons;

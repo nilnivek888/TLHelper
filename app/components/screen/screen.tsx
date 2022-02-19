@@ -12,6 +12,7 @@ import {
 } from "react-native-safe-area-context";
 import { ScreenProps } from "./screen.props";
 import { isNonScrolling, offsets, presets } from "./screen.presets";
+import { color } from "../../theme";
 
 const isIos = Platform.OS === "ios";
 
@@ -29,26 +30,15 @@ function ScreenWithoutScrolling(props: ScreenProps) {
 			behavior={isIos ? "padding" : undefined}
 			keyboardVerticalOffset={offsets[props.keyboardOffset || "none"]}
 		>
-			<View
-				style={{
-					flex: 0,
-					height:
-						Platform.OS === "ios" ? 44 : StatusBar.currentHeight,
-					backgroundColor: props.backgroundColor,
-					zIndex: 5,
-				}}
-			>
-				<SafeAreaView>
-					<StatusBar
-						translucent
-						barStyle={props.statusBar || "light-content"}
-						{...props}
-					/>
-				</SafeAreaView>
-			</View>
-			<View style={[preset.inner, style, insetStyle]}>
-				{props.children}
-			</View>
+			<SafeAreaView style={{ flex: 1, backgroundColor: color.primary }}>
+				<StatusBar
+					barStyle={props.statusBar || "light-content"}
+					{...props}
+				/>
+				<View style={[preset.inner, style, insetStyle]}>
+					{props.children}
+				</View>
+			</SafeAreaView>
 		</KeyboardAvoidingView>
 	);
 }

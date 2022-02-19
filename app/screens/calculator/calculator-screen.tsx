@@ -1,19 +1,14 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { observer } from "mobx-react-lite";
 import React, { FC, useEffect } from "react";
-import {
-	View,
-	SafeAreaView,
-	TextStyle,
-	ViewStyle,
-	FlatList,
-} from "react-native";
+import { View, TextStyle, ViewStyle, FlatList, Alert } from "react-native";
 import { Screen, Header, Text, Button, CheckBox } from "../../components";
 import { Card } from "../../components/card/card";
 import { useStores } from "../../models";
 import { ProductStore } from "../../models/product-store/product-store";
 import { NavigatorParamList } from "../../navigators";
 import { color, spacing, shadow, shadowup } from "../../theme";
+import { getSummary } from "../../utils/bag";
 
 const FULL: ViewStyle = {
 	flex: 1,
@@ -35,7 +30,6 @@ const HEADER: ViewStyle = {
 
 const SUBHEADER: ViewStyle = {
 	height: "8%",
-	backgroundColor: color.lightText,
 	zIndex: 5,
 };
 const SUBHEADER_CONTENT: ViewStyle = {
@@ -115,7 +109,7 @@ type TotalProps = {
 const Total = observer((props: TotalProps) => {
 	const { feeIncludedStore, productStore } = useStores();
 	return (
-		<Text style={props.style}>
+		<Text adjustsFontSizeToFit style={props.style}>
 			{getTotalPrice(
 				productStore,
 				feeIncludedStore.feeIncluded ? props.fee : 0
@@ -138,18 +132,25 @@ export const CalculatorScreen: FC<
 
 	return (
 		<View testID="CalculatorScreen" style={FULL}>
-			<Screen
-				style={CONTAINER}
-				preset="fixed"
-				backgroundColor={color.primary}
-				unsafe
-			>
+			<Screen style={CONTAINER} preset="fixed" unsafe>
 				<Header
 					headerTx="calculatorScreen.calculator"
 					style={HEADER}
 					titleStyle={HEADER_TITLE}
+					rightIcon="bag"
+					onRightPress={() => {
+						Alert.alert(
+							"總覽",
+							getSummary(
+								productStore.productSummary,
+								giftStore.giftSummary,
+								productStore.totalPrice
+							),
+							[{ text: "OK" }]
+						);
+					}}
 				/>
-				<SafeAreaView style={SUBHEADER}>
+				<View style={SUBHEADER}>
 					<View style={SUBHEADER_CONTENT}>
 						<View style={SUBHEADER_CONTAINERS}>
 							<CheckBox
@@ -168,12 +169,12 @@ export const CalculatorScreen: FC<
 									height: "75%",
 									width: "50%",
 									alignSelf: "center",
-									backgroundColor: color.palette.greenMid,
+									backgroundColor: color.accent,
 								}}
 								textStyle={{
 									...TITLE_TEXT,
 									position: "absolute",
-									color: color.textDark,
+									color: color.accentDarker,
 									paddingHorizontal: 0,
 								}}
 								onPress={() => {
@@ -184,12 +185,12 @@ export const CalculatorScreen: FC<
 							/>
 						</View>
 					</View>
-				</SafeAreaView>
+				</View>
 				<FlatList
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={FLAT_LIST}
 					data={[...products]}
-					keyExtractor={(item) => String(item.id)}
+					keyExtractor={item => String(item.id)}
 					numColumns={2}
 					horizontal={false}
 					renderItem={({ item }) => (
@@ -199,15 +200,21 @@ export const CalculatorScreen: FC<
 					)}
 				/>
 			</Screen>
-			<SafeAreaView style={FOOTER}>
+			<View style={FOOTER}>
 				<View style={FOOTER_CONTENT}>
 					<View style={FOOTER_CONTAINERS}>
-						<Text style={{ ...TITLE_TEXT, fontWeight: "bold" }}>
+						<Text
+							adjustsFontSizeToFit
+							style={{ ...TITLE_TEXT, fontWeight: "bold" }}
+						>
 							{"合計"}
 						</Text>
 					</View>
 					<View style={FOOTER_CONTAINERS}>
-						<Text style={{ ...TITLE_TEXT, fontWeight: "bold" }}>
+						<Text
+							adjustsFontSizeToFit
+							style={{ ...TITLE_TEXT, fontWeight: "bold" }}
+						>
 							{"PV"}
 						</Text>
 					</View>
@@ -218,10 +225,12 @@ export const CalculatorScreen: FC<
 						/>
 					</View>
 					<View style={FOOTER_CONTAINERS}>
-						<Text style={TITLE_TEXT}>{productStore.totalPV}</Text>
+						<Text adjustsFontSizeToFit style={TITLE_TEXT}>
+							{productStore.totalPV}
+						</Text>
 					</View>
 				</View>
-			</SafeAreaView>
+			</View>
 		</View>
 	);
 });

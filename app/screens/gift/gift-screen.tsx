@@ -1,19 +1,13 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { observer } from "mobx-react-lite";
 import React, { FC, useEffect } from "react";
-import {
-	View,
-	SafeAreaView,
-	TextStyle,
-	ViewStyle,
-	FlatList,
-} from "react-native";
+import { View, TextStyle, ViewStyle, FlatList, Alert } from "react-native";
 import { Screen, Header, Text } from "../../components";
 import { CardGift } from "../../components/cardGift/cardGift";
 import { useStores } from "../../models";
 import { NavigatorParamList } from "../../navigators";
 import { color, spacing, shadow, shadowup } from "../../theme";
-
+import { getSummary } from "../../utils/bag";
 const FULL: ViewStyle = {
 	flex: 1,
 };
@@ -99,12 +93,24 @@ export const GiftScreen: FC<
 					headerText="贈品"
 					style={HEADER}
 					titleStyle={HEADER_TITLE}
+					rightIcon="bag"
+					onRightPress={() => {
+						Alert.alert(
+							"總覽",
+							getSummary(
+								productStore.productSummary,
+								giftStore.giftSummary,
+								productStore.totalPrice
+							),
+							[{ text: "OK" }]
+						);
+					}}
 				/>
 				<FlatList
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={FLAT_LIST}
 					data={[...gifts]}
-					keyExtractor={(item) => String(item.id)}
+					keyExtractor={item => String(item.id)}
 					numColumns={1}
 					horizontal={false}
 					renderItem={({ item }) => (
@@ -117,28 +123,36 @@ export const GiftScreen: FC<
 					)}
 				></FlatList>
 			</Screen>
-			<SafeAreaView style={FOOTER}>
+			<View style={FOOTER}>
 				<View style={FOOTER_CONTENT}>
 					<View style={FOOTER_CONTAINERS}>
-						<Text style={{ ...TITLE_TEXT, fontWeight: "bold" }}>
+						<Text
+							adjustsFontSizeToFit
+							style={{ ...TITLE_TEXT, fontWeight: "bold" }}
+						>
 							{"合計價值"}
 						</Text>
 					</View>
 					<View style={FOOTER_CONTAINERS}>
-						<Text style={{ ...TITLE_TEXT, fontWeight: "bold" }}>
+						<Text
+							adjustsFontSizeToFit
+							style={{ ...TITLE_TEXT, fontWeight: "bold" }}
+						>
 							{"剩餘PV"}
 						</Text>
 					</View>
 					<View style={FOOTER_CONTAINERS}>
-						<Text style={TITLE_TEXT}>{giftStore.totalValue}</Text>
+						<Text adjustsFontSizeToFit style={TITLE_TEXT}>
+							{giftStore.totalValue}
+						</Text>
 					</View>
 					<View style={FOOTER_CONTAINERS}>
-						<Text style={TITLE_TEXT}>
+						<Text adjustsFontSizeToFit style={TITLE_TEXT}>
 							{productStore.totalPV - giftStore.totalPVCost}
 						</Text>
 					</View>
 				</View>
-			</SafeAreaView>
+			</View>
 		</View>
 	);
 });
