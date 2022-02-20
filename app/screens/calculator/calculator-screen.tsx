@@ -64,8 +64,9 @@ const LIST_CONTAINER: ViewStyle = {
 };
 const FLAT_LIST: ViewStyle = {
 	paddingTop: spacing[2],
-	paddingBottom: spacing[7],
+	paddingBottom: spacing[3],
 	marginHorizontal: spacing[1],
+	marginVertical: "auto",
 	zIndex: 1,
 };
 const FOOTER: ViewStyle = {
@@ -199,38 +200,39 @@ export const CalculatorScreen: FC<
 						</View>
 					)}
 				/>
-			</Screen>
-			<View style={FOOTER}>
-				<View style={FOOTER_CONTENT}>
-					<View style={FOOTER_CONTAINERS}>
-						<Text
-							adjustsFontSizeToFit
-							style={{ ...TITLE_TEXT, fontWeight: "bold" }}
-						>
-							{"合計"}
-						</Text>
-					</View>
-					<View style={FOOTER_CONTAINERS}>
-						<Text
-							adjustsFontSizeToFit
-							style={{ ...TITLE_TEXT, fontWeight: "bold" }}
-						>
-							{"PV"}
-						</Text>
-					</View>
-					<View style={FOOTER_CONTAINERS}>
-						<Total
-							style={TITLE_TEXT}
-							fee={productStore.membershipFee}
-						/>
-					</View>
-					<View style={FOOTER_CONTAINERS}>
-						<Text adjustsFontSizeToFit style={TITLE_TEXT}>
-							{productStore.totalPV}
-						</Text>
+
+				<View style={FOOTER}>
+					<View style={FOOTER_CONTENT}>
+						<View style={FOOTER_CONTAINERS}>
+							<Text
+								adjustsFontSizeToFit
+								style={{ ...TITLE_TEXT, fontWeight: "bold" }}
+							>
+								{"合計"}
+							</Text>
+						</View>
+						<View style={FOOTER_CONTAINERS}>
+							<Text
+								adjustsFontSizeToFit
+								style={{ ...TITLE_TEXT, fontWeight: "bold" }}
+							>
+								{"PV"}
+							</Text>
+						</View>
+						<View style={FOOTER_CONTAINERS}>
+							<Total
+								style={TITLE_TEXT}
+								fee={productStore.membershipFee}
+							/>
+						</View>
+						<View style={FOOTER_CONTAINERS}>
+							<Text adjustsFontSizeToFit style={TITLE_TEXT}>
+								{productStore.totalPV}
+							</Text>
+						</View>
 					</View>
 				</View>
-			</View>
+			</Screen>
 		</View>
 	);
 });

@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Button, Icon, Text } from "..";
 import { useStores } from "../../models";
 import { Product } from "../../models/product/product";
-import { color, shadow } from "../../theme";
+import { color, shadow, spacing } from "../../theme";
 
 type CardProps = { product: Product };
 
@@ -23,7 +23,7 @@ const cardTextStyle: TextStyle = {
 	textAlignVertical: "center",
 	textAlign: "center",
 	alignSelf: "center",
-	width: "90%",
+	padding: spacing[1],
 };
 const counterFillStyle: ViewStyle = {
 	backgroundColor: color.primary,
@@ -90,7 +90,11 @@ export const Card: React.FC<CardProps> = observer((props: CardProps) => {
 				}}
 				activeOpacity={1}
 			>
-				<Text style={cardTextStyle} adjustsFontSizeToFit>
+				<Text
+					style={cardTextStyle}
+					adjustsFontSizeToFit
+					numberOfLines={1}
+				>
 					{product.displayName ?? product.name}
 				</Text>
 			</TouchableOpacity>

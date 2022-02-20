@@ -5,7 +5,7 @@
  * and a "main" flow which the user will use once logged in.
  */
 import React from "react";
-import { useColorScheme } from "react-native";
+import { SafeAreaView, useColorScheme } from "react-native";
 import {
 	NavigationContainer,
 	DefaultTheme,
@@ -47,71 +47,75 @@ export const AppNavigator = (props: NavigationProps) => {
 	const colorScheme = useColorScheme();
 	useBackButtonHandler(canExit);
 	return (
-		<NavigationContainer
-			ref={navigationRef}
-			theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-			{...props}
-		>
-			<Tab.Navigator
-				screenOptions={{
-					tabBarStyle: {
-						backgroundColor: color.primary,
-						...shadowup,
-						elevation: 10,
-						zIndex: 10,
-					},
-					tabBarShowLabel: false,
-					headerShown: false,
-				}}
+		<SafeAreaView style={{ flex: 1, backgroundColor: color.primary }}>
+			<NavigationContainer
+				ref={navigationRef}
+				theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+				{...props}
 			>
-				<Tab.Screen
-					name="calculator"
-					component={CalculatorScreen}
-					options={{
-						tabBarIcon: ({ focused }) => (
-							<Icon
-								icon="calculator"
-								style={{
-									tintColor: color.primaryDarker,
-									opacity: focused ? 1 : 0.5,
-									height: "60%",
-									width: "60%",
-								}}
-								containerStyle={{
-									height: "100%",
-									width: "100%",
-									alignItems: "center",
-									justifyContent: "center",
-								}}
-							/>
-						),
+				<Tab.Navigator
+					screenOptions={{
+						tabBarStyle: {
+							backgroundColor: color.primary,
+							...shadowup,
+							elevation: 10,
+							zIndex: 10,
+							paddingBottom: 0,
+							height: "7%",
+						},
+						tabBarShowLabel: false,
+						headerShown: false,
 					}}
-				/>
-				<Tab.Screen
-					name="gift"
-					component={GiftScreen}
-					options={{
-						tabBarIcon: ({ focused }) => (
-							<Icon
-								icon="gift"
-								style={{
-									tintColor: color.primaryDarker,
-									opacity: focused ? 1 : 0.5,
-									height: "60%",
-									width: "60%",
-								}}
-								containerStyle={{
-									height: "100%",
-									width: "100%",
-									alignItems: "center",
-									justifyContent: "center",
-								}}
-							/>
-						),
-					}}
-				/>
-			</Tab.Navigator>
-		</NavigationContainer>
+				>
+					<Tab.Screen
+						name="calculator"
+						component={CalculatorScreen}
+						options={{
+							tabBarIcon: ({ focused }) => (
+								<Icon
+									icon="calculator"
+									style={{
+										tintColor: color.primaryDarker,
+										opacity: focused ? 1 : 0.5,
+										height: "60%",
+										width: "60%",
+									}}
+									containerStyle={{
+										height: "100%",
+										width: "100%",
+										alignItems: "center",
+										justifyContent: "center",
+									}}
+								/>
+							),
+						}}
+					/>
+					<Tab.Screen
+						name="gift"
+						component={GiftScreen}
+						options={{
+							tabBarIcon: ({ focused }) => (
+								<Icon
+									icon="gift"
+									style={{
+										tintColor: color.primaryDarker,
+										opacity: focused ? 1 : 0.5,
+										height: "60%",
+										width: "60%",
+									}}
+									containerStyle={{
+										height: "100%",
+										width: "100%",
+										alignItems: "center",
+										justifyContent: "center",
+									}}
+								/>
+							),
+						}}
+					/>
+				</Tab.Navigator>
+			</NavigationContainer>
+		</SafeAreaView>
 	);
 };
 
