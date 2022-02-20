@@ -10,13 +10,13 @@ export const ProductStoreModel = types
 		membershipFee: types.maybe(types.integer),
 	})
 	.extend(withEnvironment)
-	.actions(self => ({
+	.actions((self) => ({
 		saveProducts: (products: Product[], membershipFee: number) => {
 			self.products.replace(products);
 			self.membershipFee = membershipFee;
 		},
 	}))
-	.actions(self => ({
+	.actions((self) => ({
 		getProducts: async () => {
 			const productApi = new ProductApi(self.environment.api);
 			const result = await productApi.getProducts();
@@ -28,20 +28,23 @@ export const ProductStoreModel = types
 			}
 		},
 		clear: () => {
-			self.products.forEach(p => p.clearCount());
+			self.products.forEach((p) => p.clearCount());
 		},
 	}))
-	.views(self => ({
+	.views((self) => ({
 		get totalPV() {
 			return self.products.reduce((sum, a) => sum + a.count * a.PV, 0);
 		},
-		get totalPrice() {
-			return self.products.reduce((sum, a) => sum + a.count * a.price, 0);
+		getTotalPrice(feeIncluded: boolean) {
+			return (
+				self.products.reduce((sum, a) => sum + a.count * a.price, 0) +
+				(feeIncluded ? self.membershipFee : 0)
+			);
 		},
 		get productSummary() {
 			return self.products
-				.filter(p => p.count !== 0)
-				.map(p => {
+				.filter((p) => p.count !== 0)
+				.map((p) => {
 					return p.name + "*" + p.count;
 				})
 				.join("\n");

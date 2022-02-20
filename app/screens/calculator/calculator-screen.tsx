@@ -1,14 +1,13 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { observer } from "mobx-react-lite";
 import React, { FC, useEffect } from "react";
-import { View, TextStyle, ViewStyle, FlatList, Alert } from "react-native";
+import { View, TextStyle, ViewStyle, FlatList } from "react-native";
 import { Screen, Header, Text, Button, CheckBox } from "../../components";
 import { Card } from "../../components/card/card";
 import { useStores } from "../../models";
-import { ProductStore } from "../../models/product-store/product-store";
 import { NavigatorParamList } from "../../navigators";
 import { color, spacing, shadow, shadowup } from "../../theme";
-import { getSummary } from "../../utils/bag";
+import { sendSummaryAlert } from "../../utils/bag";
 
 const FULL: ViewStyle = {
 	flex: 1,
@@ -97,10 +96,6 @@ const FOOTER_CONTAINERS: ViewStyle = {
 	justifyContent: "center",
 };
 
-function getTotalPrice(productStore: ProductStore, fee: number): number {
-	return productStore.totalPrice + fee;
-}
-
 type TotalProps = {
 	style: TextStyle;
 	fee: number;
@@ -110,10 +105,7 @@ const Total = observer((props: TotalProps) => {
 	const { feeIncludedStore, productStore } = useStores();
 	return (
 		<Text adjustsFontSizeToFit style={props.style}>
-			{getTotalPrice(
-				productStore,
-				feeIncludedStore.feeIncluded ? props.fee : 0
-			)}
+			{productStore.getTotalPrice(feeIncludedStore.feeIncluded)}
 		</Text>
 	);
 });
@@ -121,7 +113,7 @@ const Total = observer((props: TotalProps) => {
 export const CalculatorScreen: FC<
 	StackScreenProps<NavigatorParamList, "calculator">
 > = observer(({ navigation }) => {
-	const { productStore, giftStore } = useStores();
+	const { productStore, giftStore, feeIncludedStore } = useStores();
 	const { products } = productStore;
 	useEffect(() => {
 		async function fetchData() {
@@ -139,14 +131,10 @@ export const CalculatorScreen: FC<
 					titleStyle={HEADER_TITLE}
 					rightIcon="bag"
 					onRightPress={() => {
-						Alert.alert(
-							"總覽",
-							getSummary(
-								productStore.productSummary,
-								giftStore.giftSummary,
-								productStore.totalPrice
-							),
-							[{ text: "OK" }]
+						sendSummaryAlert(
+							productStore,
+							giftStore,
+							feeIncludedStore
 						);
 					}}
 				/>
@@ -190,7 +178,7 @@ export const CalculatorScreen: FC<
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={FLAT_LIST}
 					data={[...products]}
-					keyExtractor={item => String(item.id)}
+					keyExtractor={(item) => String(item.id)}
 					numColumns={2}
 					horizontal={false}
 					renderItem={({ item }) => (
