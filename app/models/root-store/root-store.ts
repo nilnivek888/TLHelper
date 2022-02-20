@@ -13,7 +13,11 @@ export const BooleanModel = types
 			self.feeIncluded = !self.feeIncluded;
 		},
 	}));
-
+type BooleanType = Instance<typeof BooleanModel>;
+export interface BooleanStore extends BooleanType {}
+type BooleanSnapshotType = SnapshotOut<typeof BooleanModel>;
+export interface BooleanSnapshot extends BooleanSnapshotType {}
+export const createBooleanDefaultModel = () => types.optional(BooleanModel, {});
 /**
  * A RootStore model.
  */

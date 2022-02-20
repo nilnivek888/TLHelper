@@ -1,13 +1,13 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { observer } from "mobx-react-lite";
 import React, { FC, useEffect } from "react";
-import { View, TextStyle, ViewStyle, FlatList, Alert } from "react-native";
+import { View, TextStyle, ViewStyle, FlatList } from "react-native";
 import { Screen, Header, Text } from "../../components";
 import { CardGift } from "../../components/cardGift/cardGift";
 import { useStores } from "../../models";
 import { NavigatorParamList } from "../../navigators";
 import { color, spacing, shadow, shadowup } from "../../theme";
-import { getSummary } from "../../utils/bag";
+import { sendSummaryAlert } from "../../utils/bag";
 const FULL: ViewStyle = {
 	flex: 1,
 };
@@ -72,7 +72,7 @@ const FOOTER_CONTAINERS: ViewStyle = {
 export const GiftScreen: FC<
 	StackScreenProps<NavigatorParamList, "gift">
 > = observer(({ navigation }) => {
-	const { giftStore, productStore } = useStores();
+	const { giftStore, productStore, feeIncludedStore } = useStores();
 	const { gifts } = giftStore;
 	useEffect(() => {
 		async function fetchData() {
@@ -95,14 +95,10 @@ export const GiftScreen: FC<
 					titleStyle={HEADER_TITLE}
 					rightIcon="bag"
 					onRightPress={() => {
-						Alert.alert(
-							"總覽",
-							getSummary(
-								productStore.productSummary,
-								giftStore.giftSummary,
-								productStore.totalPrice
-							),
-							[{ text: "OK" }]
+						sendSummaryAlert(
+							productStore,
+							giftStore,
+							feeIncludedStore
 						);
 					}}
 				/>
@@ -110,7 +106,7 @@ export const GiftScreen: FC<
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={FLAT_LIST}
 					data={[...gifts]}
-					keyExtractor={item => String(item.id)}
+					keyExtractor={(item) => String(item.id)}
 					numColumns={1}
 					horizontal={false}
 					renderItem={({ item }) => (
