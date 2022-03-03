@@ -12,13 +12,15 @@ export class ProductApi {
 	async getProducts(): Promise<GetProductsResult> {
 		try {
 			const prds = [];
-			const prdsCollection = firestore().collection("Products");
+			const prdsCollection = firestore()
+				.collection("Products")
+				.orderBy("order", "asc");
 			const snapshot = await prdsCollection.get();
 			let fee = 0;
 			if (snapshot.empty) {
 				console.log("No documents.");
 			}
-			snapshot.forEach((doc) => {
+			snapshot.forEach(doc => {
 				if (doc.id === "fee") {
 					fee = doc.data().price;
 					return;
