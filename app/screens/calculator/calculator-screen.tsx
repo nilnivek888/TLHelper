@@ -193,7 +193,7 @@ export const CalculatorScreen: FC<
 					<View style={FOOTER_CONTENT}>
 						<View style={FOOTER_CONTAINERS}>
 							<Text
-								adjustsFontSizeToFit
+								maxFontSizeMultiplier={1}
 								style={{ ...TITLE_TEXT, fontWeight: "bold" }}
 							>
 								{"合計"}
@@ -201,7 +201,7 @@ export const CalculatorScreen: FC<
 						</View>
 						<View style={FOOTER_CONTAINERS}>
 							<Text
-								adjustsFontSizeToFit
+								maxFontSizeMultiplier={1}
 								style={{ ...TITLE_TEXT, fontWeight: "bold" }}
 							>
 								{"PV"}

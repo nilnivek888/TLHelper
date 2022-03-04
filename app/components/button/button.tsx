@@ -27,7 +27,7 @@ export function Button(props: ButtonProps) {
 	const textStyles = [textStyle, textStyleOverride];
 
 	const content = children || (
-		<Text adjustsFontSizeToFit tx={tx} text={text} style={textStyles} />
+		<Text maxFontSizeMultiplier={1} tx={tx} text={text} style={textStyles} />
 	);
 
 	return (

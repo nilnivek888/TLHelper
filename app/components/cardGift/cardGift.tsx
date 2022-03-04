@@ -109,6 +109,7 @@ export const CardGift: React.FC<CardGiftProps> = observer(
 							}}
 							adjustsFontSizeToFit
 							numberOfLines={1}
+							maxFontSizeMultiplier={1}
 						>
 							{gift.name}
 						</Text>
@@ -122,6 +123,7 @@ export const CardGift: React.FC<CardGiftProps> = observer(
 							alignSelf: "flex-start",
 						}}
 						adjustsFontSizeToFit
+						maxFontSizeMultiplier={1.5}
 						numberOfLines={2}
 					>
 						{`價值:$${gift.value}
@@ -163,7 +165,7 @@ PV:${gift.PVCost}`}
 					</Button>
 
 					<View style={flexWrapStyle}>
-						<Text adjustsFontSizeToFit style={counterTextStyle}>
+						<Text maxFontSizeMultiplier={1} style={counterTextStyle}>
 							{" "}
 							{gift.count}
 						</Text>
