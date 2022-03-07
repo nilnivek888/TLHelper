@@ -2,6 +2,7 @@ import { Alert } from "react-native";
 import { BooleanStore } from "../models";
 import { GiftStore } from "../models/gift-store/gift-store";
 import { ProductStore } from "../models/product-store/product-store";
+import { writeTo } from "./printer/printer";
 
 function getSummary(
 	productSummary: string,
@@ -33,6 +34,6 @@ export function sendSummaryAlert(
 			giftStore.giftSummary,
 			productStore.getTotalPrice(feeIncludedStore.feeIncluded)
 		),
-		[{ text: "OK" }]
+		[{ text: "OK" }, { text: "列印", onPress: () => writeTo() }]
 	);
 }
