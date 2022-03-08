@@ -3,8 +3,9 @@ import { utils } from "@react-native-firebase/app";
 import { Workbook } from "exceljs";
 import Excel from "exceljs";
 var RNFS = require("react-native-fs");
-import { writeFile } from "react-native-fs";
-
+import * as FileSystem from "expo-file-system";
+import { Buffer as NodeBuffer } from "buffer";
+import * as Sharing from "expo-sharing";
 export async function writeTo() {
 	try {
 		const fileName = "abc.xlsx";
@@ -19,34 +20,49 @@ export async function writeTo() {
 				);
 			}
 		}
-		const wb = await exportDataToExcel(downloadTo);
-		shareFile(wb);
+		const newUri = await modifyAndExport(
+			downloadTo,
+			FileSystem.cacheDirectory + "abcd.xlsx"
+		);
+		shareFile(newUri);
 		// workbook.xlsx.load(data.buffer);
 	} catch (error) {
 		console.log(error);
 	}
 }
 
-async function exportDataToExcel(file: string) {
-	const blob = new Blob([file], {
-		type:
-			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8",
-	});
+async function modifyAndExport(
+	oldFile: string,
+	newFile: string
+): Promise<string> {
+	const data = await RNFS.readFile(oldFile, "ascii");
 	var workbook = new Excel.Workbook();
-	await workbook.xlsx.load(await blob.arrayBuffer());
+	await workbook.xlsx.load(data);
 	var worksheet = workbook.getWorksheet(1);
-	var row = worksheet.getRow(5);
-	row.getCell(1).value = 5; // A5's value set to 5
+	var row = worksheet.getRow(6);
+	row.getCell(1).value = "zhong文"; // A5's value set to 5
 	row.commit();
-	worksheet.addRow({ id: 1, name: "John Doe", dob: new Date(1970, 1, 1) });
-	return workbook;
+	const buffer = await workbook.xlsx.writeBuffer();
+	const nodeBuffer = NodeBuffer.from(buffer);
+	const bufferStr = nodeBuffer.toString("base64");
+	await FileSystem.writeAsStringAsync(newFile, bufferStr, {
+		encoding: FileSystem.EncodingType.Base64,
+	});
+	return newFile;
 }
 
-async function shareFile(wb: Workbook) {
-	const data = await wb.xlsx.writeBuffer();
-	const blob = new Blob([data], {
-		type:
-			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8",
-	});
+async function shareFile(newFile: string) {
+	Sharing.shareAsync(newFile, {
+		mimeType:
+			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Android
+		dialogTitle: "Your dialog title here", // Android and Web
+		UTI: "com.microsoft.excel.xlsx", // iOS
+	})
+		.catch((error) => {
+			console.error("Error", error);
+		})
+		.then(() => {
+			console.log("Return from sharing dialog");
+		});
 	//writeFile("abcd.xlsx", blob, "ascii");
 }
