@@ -1,4 +1,16 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree";
+import {
+	applySnapshot,
+	Instance,
+	ReferenceIdentifier,
+	SnapshotOrInstance,
+	SnapshotOut,
+	getParent,
+	destroy,
+	cast,
+	types,
+	unprotect,
+	protect,
+} from "mobx-state-tree";
 import { Product, ProductModel } from "../product/product";
 import { ProductApi } from "../../services/api/product-api";
 import { withEnvironment } from "../extensions/with-environment";
@@ -14,6 +26,12 @@ export const ProductStoreModel = types
 		saveProducts: (products: Product[], membershipFee: number) => {
 			self.products.replace(products);
 			self.membershipFee = membershipFee;
+		},
+		update: (manifest: string) => {
+			const obj = JSON.parse(manifest);
+			self.products.forEach((prd) => {
+				prd.setCount(obj[prd.id] ?? 0);
+			});
 		},
 	}))
 	.actions((self) => ({
@@ -48,6 +66,25 @@ export const ProductStoreModel = types
 					return p.name + "*" + p.count;
 				})
 				.join("\n");
+		},
+		get manifest(): string {
+			const map: Map<string, number> = new Map();
+			self.products.forEach((prd) => {
+				map.set(prd.id, prd.count);
+			});
+			console.log("MAIFEST:" + JSON.stringify(Object.fromEntries(map)));
+			return JSON.stringify(Object.fromEntries(map));
+		},
+		get mapToPrdColumns(): string {
+			const map: Map<string, number> = new Map();
+			self.products.forEach((prd) => {
+				console.log(
+					"prd.id/" + prd.id + " prd.columnToFile/" + prd.columnToFile
+				);
+				map.set(prd.id, prd.columnToFile);
+			});
+			console.log("MAP" + JSON.stringify(Object.fromEntries(map)));
+			return JSON.stringify(Object.fromEntries(map));
 		},
 	}));
 

@@ -2,6 +2,7 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree";
 import { Gift, GiftModel } from "../gift/gift";
 import { GiftApi } from "../../services/api/gift-api";
 import { withEnvironment } from "../extensions/with-environment";
+import { ProductStore } from "../product-store/product-store";
 
 export const GiftStoreModel = types
 	.model("GiftStore")
@@ -9,12 +10,12 @@ export const GiftStoreModel = types
 		gifts: types.array(GiftModel),
 	})
 	.extend(withEnvironment)
-	.actions(self => ({
+	.actions((self) => ({
 		saveGifts: (gifts: Gift[]) => {
 			self.gifts.replace(gifts);
 		},
 	}))
-	.actions(self => ({
+	.actions((self) => ({
 		getGifts: async () => {
 			const giftApi = new GiftApi(self.environment.api);
 			const result = await giftApi.getGifts();
@@ -26,12 +27,12 @@ export const GiftStoreModel = types
 			}
 		},
 		clear: () => {
-			self.gifts.forEach(g => {
+			self.gifts.forEach((g) => {
 				g.clearCount();
 			});
 		},
 	}))
-	.views(self => ({
+	.views((self) => ({
 		get totalPVCost() {
 			return self.gifts.reduce((sum, a) => sum + a.count * a.PVCost, 0);
 		},
@@ -40,8 +41,8 @@ export const GiftStoreModel = types
 		},
 		get giftSummary() {
 			return self.gifts
-				.filter(g => g.count !== 0)
-				.map(p => {
+				.filter((g) => g.count !== 0)
+				.map((p) => {
 					return p.name + "*" + p.count;
 				})
 				.join("\n");

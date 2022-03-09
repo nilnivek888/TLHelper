@@ -20,11 +20,12 @@ export class ProductApi {
 			if (snapshot.empty) {
 				console.log("No documents.");
 			}
-			snapshot.forEach(doc => {
+			snapshot.forEach((doc) => {
 				if (doc.id === "fee") {
 					fee = doc.data().price;
 					return;
 				}
+				console.log("Fire" + doc.data().columnToFile);
 				prds.push(
 					ProductModel.create({
 						id: doc.id,
@@ -33,6 +34,7 @@ export class ProductApi {
 						price: doc.data().price,
 						count: 0,
 						PV: doc.data().PV,
+						columnToFile: doc.data().columnToFile,
 					}) as Product
 				);
 			});

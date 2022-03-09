@@ -114,7 +114,12 @@ const Total = observer((props: TotalProps) => {
 export const CalculatorScreen: FC<
 	StackScreenProps<NavigatorParamList, "calculator">
 > = observer(({ navigation }) => {
-	const { productStore, giftStore, feeIncludedStore } = useStores();
+	const {
+		productStore,
+		giftStore,
+		feeIncludedStore,
+		orderStore,
+	} = useStores();
 	const { products } = productStore;
 	useEffect(() => {
 		async function fetchData() {
@@ -135,7 +140,8 @@ export const CalculatorScreen: FC<
 						sendSummaryAlert(
 							productStore,
 							giftStore,
-							feeIncludedStore
+							feeIncludedStore,
+							orderStore
 						);
 					}}
 				/>
@@ -179,7 +185,7 @@ export const CalculatorScreen: FC<
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={FLAT_LIST}
 					data={[...products]}
-					keyExtractor={item => String(item.id)}
+					keyExtractor={(item) => String(item.id)}
 					numColumns={2}
 					horizontal={false}
 					renderItem={({ item }) => (

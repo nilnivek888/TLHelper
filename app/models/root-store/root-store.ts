@@ -1,6 +1,6 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree";
-import { CharacterStoreModel } from "../character-store/character-store";
 import { GiftStoreModel } from "../gift-store/gift-store";
+import { OrderStoreModel } from "../order-store/order-store";
 import { ProductStoreModel } from "../product-store/product-store";
 
 export const BooleanModel = types
@@ -22,12 +22,12 @@ export const createBooleanDefaultModel = () => types.optional(BooleanModel, {});
  * A RootStore model.
  */
 export const RootStoreModel = types.model("RootStore").props({
-	characterStore: types.optional(CharacterStoreModel, {} as any),
 	productStore: types.optional(ProductStoreModel, {} as any),
 	feeIncludedStore: types.optional(BooleanModel, {
 		feeIncluded: false,
 	} as any),
 	giftStore: types.optional(GiftStoreModel, {} as any),
+	orderStore: types.optional(OrderStoreModel, {} as any),
 });
 
 /**

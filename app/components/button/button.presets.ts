@@ -47,6 +47,11 @@ export const viewPresets: Record<string, ViewStyle> = {
 		borderRadius: 4,
 		height: "25%",
 	} as ViewStyle,
+
+	listItem: {
+		borderRadius: 4,
+		minHeight: "100%",
+	} as ViewStyle,
 };
 
 export const textPresets: Record<ButtonPresetNames, TextStyle> = {
@@ -61,11 +66,19 @@ export const textPresets: Record<ButtonPresetNames, TextStyle> = {
 		paddingHorizontal: 0,
 		paddingVertical: 0,
 	} as TextStyle,
+
 	card: {
 		fontSize: 54,
 		textAlignVertical: "center",
 		alignSelf: "center",
 		position: "absolute",
+	} as TextStyle,
+
+	listItem: {
+		fontSize: 32,
+		textAlignVertical: "center",
+		alignSelf: "center",
+		color: color.palette.white,
 	} as TextStyle,
 };
 

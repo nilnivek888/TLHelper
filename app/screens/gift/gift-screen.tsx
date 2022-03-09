@@ -64,7 +64,7 @@ const TITLE_TEXT: TextStyle = {
 	color: color.textDark,
 };
 const FOOTER_CONTAINERS: ViewStyle = {
-	width: "50%",
+	width: "100%",
 	height: "50%",
 	justifyContent: "center",
 };
@@ -72,7 +72,12 @@ const FOOTER_CONTAINERS: ViewStyle = {
 export const GiftScreen: FC<
 	StackScreenProps<NavigatorParamList, "gift">
 > = observer(({ navigation }) => {
-	const { giftStore, productStore, feeIncludedStore } = useStores();
+	const {
+		giftStore,
+		productStore,
+		feeIncludedStore,
+		orderStore,
+	} = useStores();
 	const { gifts } = giftStore;
 	useEffect(() => {
 		async function fetchData() {
@@ -98,7 +103,8 @@ export const GiftScreen: FC<
 						sendSummaryAlert(
 							productStore,
 							giftStore,
-							feeIncludedStore
+							feeIncludedStore,
+							orderStore
 						);
 					}}
 				/>
@@ -124,9 +130,15 @@ export const GiftScreen: FC<
 					<View style={FOOTER_CONTAINERS}>
 						<Text
 							adjustsFontSizeToFit
-							style={{ ...TITLE_TEXT, fontWeight: "bold" }}
+							style={{
+								...TITLE_TEXT,
+								fontWeight: "bold",
+								textAlign: "left",
+								alignSelf: "flex-start",
+								paddingHorizontal: spacing[3],
+							}}
 						>
-							{"合計價值"}
+							{"其他活動:"}
 						</Text>
 					</View>
 					<View style={FOOTER_CONTAINERS}>
@@ -134,17 +146,7 @@ export const GiftScreen: FC<
 							adjustsFontSizeToFit
 							style={{ ...TITLE_TEXT, fontWeight: "bold" }}
 						>
-							{"剩餘PV"}
-						</Text>
-					</View>
-					<View style={FOOTER_CONTAINERS}>
-						<Text adjustsFontSizeToFit style={TITLE_TEXT}>
-							{giftStore.totalValue}
-						</Text>
-					</View>
-					<View style={FOOTER_CONTAINERS}>
-						<Text adjustsFontSizeToFit style={TITLE_TEXT}>
-							{productStore.totalPV - giftStore.totalPVCost}
+							{"保健食品系列買六送二"}
 						</Text>
 					</View>
 				</View>

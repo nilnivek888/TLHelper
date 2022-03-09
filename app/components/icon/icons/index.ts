@@ -10,6 +10,10 @@ export const icons = {
 	minus: require("./minus.png"),
 	gift: require("./giftbox.png"),
 	bag: require("./bag.png"),
+	export: require("./export.png"),
+	delete: require("./bin.png"),
+	load: require("./import.png"),
+	sheet: require("./sheet.png"),
 };
 
 export type IconTypes = keyof typeof icons;

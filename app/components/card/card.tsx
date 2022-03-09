@@ -116,7 +116,10 @@ export const Card: React.FC<CardProps> = observer((props: CardProps) => {
 				</Button>
 
 				<View style={flexWrapStyle}>
-					<Text maxFontSizeMultiplier={1} style={counterTextStyle}> {props.product.count}</Text>
+					<Text maxFontSizeMultiplier={1} style={counterTextStyle}>
+						{" "}
+						{props.product.count}
+					</Text>
 				</View>
 				<Button preset="card" onPress={product.increment}>
 					<Icon

@@ -17,6 +17,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { color, shadowup } from "../theme";
 import { Icon } from "../components/icon/icon";
 import { GiftScreen } from "../screens/gift/gift-screen";
+import { ExportScreen } from "../screens/export/export-screen";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -36,6 +37,7 @@ export type NavigatorParamList = {
 	demoList: undefined;
 	calculator: undefined;
 	gift: undefined;
+	export: undefined;
 };
 
 const Tab = createBottomTabNavigator<NavigatorParamList>();
@@ -97,6 +99,29 @@ export const AppNavigator = (props: NavigationProps) => {
 							tabBarIcon: ({ focused }) => (
 								<Icon
 									icon="gift"
+									style={{
+										tintColor: color.primaryDarker,
+										opacity: focused ? 1 : 0.5,
+										height: "60%",
+										width: "60%",
+									}}
+									containerStyle={{
+										height: "100%",
+										width: "100%",
+										alignItems: "center",
+										justifyContent: "center",
+									}}
+								/>
+							),
+						}}
+					/>
+					<Tab.Screen
+						name="export"
+						component={ExportScreen}
+						options={{
+							tabBarIcon: ({ focused }) => (
+								<Icon
+									icon="sheet"
 									style={{
 										tintColor: color.primaryDarker,
 										opacity: focused ? 1 : 0.5,

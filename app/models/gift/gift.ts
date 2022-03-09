@@ -10,6 +10,7 @@ export const GiftModel = types
 		PVCost: types.number,
 		count: 0,
 		value: types.number,
+		columnToFile: types.maybe(types.array(types.number)),
 	})
 	.actions((self) => ({
 		increment: () => {

@@ -9,9 +9,9 @@ export const ProductModel = types
 		name: types.string,
 		displayName: types.maybe(types.string),
 		price: types.number,
-		image: types.maybe(types.string),
 		count: 0,
 		PV: types.number,
+		columnToFile: types.maybe(types.number),
 	})
 	.actions((self) => ({
 		increment: () => {
@@ -22,6 +22,9 @@ export const ProductModel = types
 		},
 		clearCount: () => {
 			self.count = 0;
+		},
+		setCount: (count: number) => {
+			self.count = count;
 		},
 	}));
 

@@ -87,7 +87,6 @@ const disabledStyles: ViewStyle = {
 export const CardGift: React.FC<CardGiftProps> = observer(
 	(props: CardGiftProps) => {
 		const gift = props.gift;
-		const { productStore, giftStore } = useStores();
 
 		return (
 			<View style={[cardFillStyle, props.disabled && disabledStyles]}>
@@ -129,58 +128,6 @@ export const CardGift: React.FC<CardGiftProps> = observer(
 						{`價值:$${gift.value}
 PV:${gift.PVCost}`}
 					</Text>
-				</View>
-
-				<View style={counterFillStyle}>
-					<Button
-						preset="card_Vertical"
-						onPress={() => {
-							if (
-								productStore.totalPV - giftStore.totalPVCost <
-								gift.PVCost
-							) {
-								Alert.alert(
-									I18n.t("errors.insufficientPV", {
-										PV:
-											gift.PVCost -
-											productStore.totalPV +
-											giftStore.totalPVCost,
-									}),
-									"",
-									[{ text: "OK" }]
-								);
-							} else {
-								gift.increment();
-							}
-						}}
-						disabled={props.disabled}
-					>
-						<Icon
-							icon="plus"
-							style={iconStyle}
-							containerStyle={{
-								...iconContainerStyle,
-							}}
-						/>
-					</Button>
-
-					<View style={flexWrapStyle}>
-						<Text maxFontSizeMultiplier={1} style={counterTextStyle}>
-							{" "}
-							{gift.count}
-						</Text>
-					</View>
-					<Button
-						preset="card_Vertical"
-						onPress={gift.decrement}
-						disabled={props.disabled || gift.count === 0}
-					>
-						<Icon
-							icon="minus"
-							style={iconStyle}
-							containerStyle={iconContainerStyle}
-						/>
-					</Button>
 				</View>
 			</View>
 		);
