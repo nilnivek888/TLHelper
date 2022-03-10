@@ -103,7 +103,7 @@ export const ItemOrder: React.FC<ItemOrderProps> = observer(
 											},
 											style: "destructive",
 										},
-										{ text: "取消", style: "cancel" },
+										{ text: "取消" },
 									]
 								)
 							}
@@ -127,9 +127,9 @@ export const ItemOrder: React.FC<ItemOrderProps> = observer(
 									{
 										text: "確定",
 										onPress: props.onDelete,
-										style: "destructive",
+										style: "cancel",
 									},
-									{ text: "取消", style: "cancel" },
+									{ text: "取消" },
 								])
 							}
 							style={{

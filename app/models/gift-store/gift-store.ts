@@ -2,12 +2,12 @@ import { Instance, SnapshotOut, types } from "mobx-state-tree";
 import { Gift, GiftModel } from "../gift/gift";
 import { GiftApi } from "../../services/api/gift-api";
 import { withEnvironment } from "../extensions/with-environment";
-import { ProductStore } from "../product-store/product-store";
 
 export const GiftStoreModel = types
 	.model("GiftStore")
 	.props({
 		gifts: types.array(GiftModel),
+		other: types.optional(types.string, ""),
 	})
 	.extend(withEnvironment)
 	.actions((self) => ({
@@ -22,30 +22,21 @@ export const GiftStoreModel = types
 
 			if (result.kind === "ok") {
 				self.saveGifts(result.gifts);
+				self.other = result.other;
 			} else {
 				__DEV__ && console.tron.log(result.kind);
 			}
 		},
-		clear: () => {
-			self.gifts.forEach((g) => {
-				g.clearCount();
-			});
-		},
 	}))
 	.views((self) => ({
-		get totalPVCost() {
-			return self.gifts.reduce((sum, a) => sum + a.count * a.PVCost, 0);
-		},
-		get totalValue() {
-			return self.gifts.reduce((sum, a) => sum + a.count * a.value, 0);
-		},
-		get giftSummary() {
-			return self.gifts
-				.filter((g) => g.count !== 0)
-				.map((p) => {
-					return p.name + "*" + p.count;
-				})
-				.join("\n");
+		getGiftSummary(totalPV: number) {
+			self.gifts.forEach((g) => console.log(g.PVCost));
+			for (const g of [...self.gifts].reverse()) {
+				if (g.PVCost <= totalPV) {
+					return g.name;
+				}
+			}
+			return "無";
 		},
 	}));
 

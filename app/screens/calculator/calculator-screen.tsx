@@ -175,7 +175,6 @@ export const CalculatorScreen: FC<
 								}}
 								onPress={() => {
 									productStore.clear();
-									giftStore.clear();
 									if (feeIncludedStore.feeIncluded) {
 										feeIncludedStore.toggle();
 									}

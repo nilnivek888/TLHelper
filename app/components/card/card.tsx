@@ -104,7 +104,6 @@ export const Card: React.FC<CardProps> = observer((props: CardProps) => {
 					preset="card"
 					onPress={() => {
 						product.decrement();
-						giftStore.clear();
 					}}
 					disabled={product.count === 0}
 				>

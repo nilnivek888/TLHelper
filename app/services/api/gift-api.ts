@@ -12,18 +12,24 @@ export class GiftApi {
 	async getGifts(): Promise<GetGiftsResult> {
 		try {
 			const gifts = [];
+			let other = "";
 			const giftsCollection = firestore().collection("Gifts");
 			const snapshot = await giftsCollection.get();
 			if (snapshot.empty) {
 				console.log("No documents.");
 			}
+
 			snapshot.forEach((doc) => {
+				if (doc.id === "other") {
+					other = doc.data().message;
+					return;
+				}
+
 				gifts.push(
 					GiftModel.create({
 						id: doc.id,
 						name: doc.data().name,
 						value: doc.data().value,
-						count: 0,
 						PVCost: doc.data().PVCost,
 					}) as Gift
 				);
@@ -32,6 +38,7 @@ export class GiftApi {
 			return {
 				kind: "ok",
 				gifts: gifts,
+				other: other,
 			};
 		} catch (e) {
 			__DEV__ && console.log(e.message);

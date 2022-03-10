@@ -38,7 +38,7 @@ export function sendSummaryAlert(
 		"總覽",
 		getSummary(
 			productStore.productSummary,
-			giftStore.giftSummary,
+			giftStore.getGiftSummary(productStore.totalPV),
 			totalPrice,
 			feeIncludedStore.feeIncluded
 		),

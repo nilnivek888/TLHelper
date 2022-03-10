@@ -66,9 +66,9 @@ export const ExportScreen: FC<
 								onPress: () => {
 									exportToExcel(orderStore);
 								},
-								style: "destructive",
+								style: "cancel",
 							},
-							{ text: "取消", style: "cancel" },
+							{ text: "取消" },
 						]);
 					}}
 				/>
