@@ -1,13 +1,12 @@
-import I18n from "i18n-js";
 import { observer } from "mobx-react-lite";
 import React from "react";
-import { Alert, ImageStyle, TextStyle, View, ViewStyle } from "react-native";
-import { Button, Icon, Text } from "..";
+import { TextStyle, View, ViewStyle } from "react-native";
+import { Text } from "..";
 import { useStores } from "../../models";
 import { Gift } from "../../models/gift/gift";
 import { color, shadow } from "../../theme";
 
-type CardGiftProps = { gift: Gift; disabled?: boolean };
+type CardGiftProps = { gift: Gift };
 
 const cardFillStyle: ViewStyle = {
 	backgroundColor: color.primaryDarker,
@@ -27,49 +26,6 @@ const cardTextStyle: TextStyle = {
 	paddingHorizontal: "2%",
 	paddingVertical: "1%",
 };
-const counterFillStyle: ViewStyle = {
-	backgroundColor: color.primary,
-	height: "90%",
-	width: "10%",
-	borderRadius: 9,
-	marginLeft: "auto",
-	marginRight: "2%",
-	marginTop: "auto",
-	marginBottom: "auto",
-	justifyContent: "space-between",
-};
-
-const counterTextStyle: TextStyle = {
-	fontSize: 24,
-	width: "100%",
-	textAlignVertical: "center",
-	textAlign: "center",
-	alignSelf: "center",
-	position: "absolute",
-	margin: "auto",
-};
-
-const flexWrapStyle: ViewStyle = {
-	borderRadius: 4,
-	width: "100%",
-	justifyContent: "center",
-	alignItems: "center",
-	padding: 0,
-};
-
-const iconStyle: ImageStyle = {
-	height: "90%",
-	width: "90%",
-	tintColor: color.lightText,
-};
-
-const iconContainerStyle: ViewStyle = {
-	height: "100%",
-	width: "100%",
-	alignItems: "center",
-	justifyContent: "center",
-	paddingHorizontal: 8,
-};
 
 const disabledStyles: ViewStyle = {
 	opacity: 0.5,
@@ -87,9 +43,14 @@ const disabledStyles: ViewStyle = {
 export const CardGift: React.FC<CardGiftProps> = observer(
 	(props: CardGiftProps) => {
 		const gift = props.gift;
-
+		const { productStore } = useStores();
 		return (
-			<View style={[cardFillStyle, props.disabled && disabledStyles]}>
+			<View
+				style={[
+					cardFillStyle,
+					productStore.totalPV < props.gift.PVCost && disabledStyles,
+				]}
+			>
 				<View
 					style={{
 						height: "100%",

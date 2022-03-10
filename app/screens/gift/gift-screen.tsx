@@ -113,15 +113,12 @@ export const GiftScreen: FC<
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={FLAT_LIST}
 					data={[...gifts]}
-					keyExtractor={(item) => String(item.id)}
+					keyExtractor={item => String(item.id)}
 					numColumns={1}
 					horizontal={false}
 					renderItem={({ item }) => (
 						<View style={LIST_CONTAINER}>
-							<CardGift
-								gift={item}
-								disabled={productStore.totalPV < item.PVCost}
-							/>
+							<CardGift gift={item} />
 						</View>
 					)}
 				></FlatList>

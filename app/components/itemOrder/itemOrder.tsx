@@ -24,7 +24,7 @@ const iconContainerStyle: ViewStyle = {
 	padding: 8,
 };
 
-const FadeInView = (props) => {
+const FadeInView = props => {
 	const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
 	useEffect(() => {
@@ -60,7 +60,7 @@ export const ItemOrder: React.FC<ItemOrderProps> = observer(
 					<ListItem.Content>
 						<ListItem.Input
 							value={props.order.name}
-							onChangeText={(txt) => {
+							onChangeText={txt => {
 								props.order.setName(txt);
 							}}
 							placeholder="輸入姓名"
@@ -101,7 +101,7 @@ export const ItemOrder: React.FC<ItemOrderProps> = observer(
 													"calculator"
 												);
 											},
-											style: "destructive",
+											style: "cancel",
 										},
 										{ text: "取消" },
 									]

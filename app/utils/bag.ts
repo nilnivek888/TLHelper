@@ -69,6 +69,7 @@ export function sendSummaryAlert(
 					orderStore.setMapToPrdColumns(productStore.mapToPrdColumns);
 					goNextScreen();
 				},
+				style: "cancel",
 			},
 			{ text: "OK" },
 		]

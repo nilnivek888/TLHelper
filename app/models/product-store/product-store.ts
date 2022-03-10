@@ -10,34 +10,37 @@ export const ProductStoreModel = types
 		membershipFee: types.maybe(types.integer),
 	})
 	.extend(withEnvironment)
-	.actions((self) => ({
-		saveProducts: (products: Product[], membershipFee: number) => {
+	.actions(self => ({
+		saveProducts: (products: Product[]) => {
 			self.products.replace(products);
-			self.membershipFee = membershipFee;
+		},
+		saveMembershipFee(fee: number) {
+			self.membershipFee = fee;
 		},
 		update: (manifest: string) => {
 			const obj = JSON.parse(manifest);
-			self.products.forEach((prd) => {
+			self.products.forEach(prd => {
 				prd.setCount(obj[prd.id] ?? 0);
 			});
 		},
 	}))
-	.actions((self) => ({
+	.actions(self => ({
 		getProducts: async () => {
 			const productApi = new ProductApi(self.environment.api);
 			const result = await productApi.getProducts();
 
 			if (result.kind === "ok") {
-				self.saveProducts(result.products, result.membershipFee);
+				self.saveProducts(result.products);
+				self.saveMembershipFee(result.membershipFee);
 			} else {
 				__DEV__ && console.tron.log(result.kind);
 			}
 		},
 		clear: () => {
-			self.products.forEach((p) => p.clearCount());
+			self.products.forEach(p => p.clearCount());
 		},
 	}))
-	.views((self) => ({
+	.views(self => ({
 		get totalPV() {
 			return self.products.reduce((sum, a) => sum + a.count * a.PV, 0);
 		},
@@ -49,15 +52,15 @@ export const ProductStoreModel = types
 		},
 		get productSummary() {
 			return self.products
-				.filter((p) => p.count !== 0)
-				.map((p) => {
+				.filter(p => p.count !== 0)
+				.map(p => {
 					return p.name + "*" + p.count;
 				})
 				.join("\n");
 		},
 		get manifest(): string {
 			const map: Map<string, number> = new Map();
-			self.products.forEach((prd) => {
+			self.products.forEach(prd => {
 				map.set(prd.id, prd.count);
 			});
 			console.log("MAIFEST:" + JSON.stringify(Object.fromEntries(map)));
@@ -65,7 +68,7 @@ export const ProductStoreModel = types
 		},
 		get mapToPrdColumns(): string {
 			const map: Map<string, number> = new Map();
-			self.products.forEach((prd) => {
+			self.products.forEach(prd => {
 				console.log(
 					"prd.id/" + prd.id + " prd.columnToFile/" + prd.columnToFile
 				);

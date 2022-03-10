@@ -10,33 +10,36 @@ export const GiftStoreModel = types
 		other: types.optional(types.string, ""),
 	})
 	.extend(withEnvironment)
-	.actions((self) => ({
+	.actions(self => ({
 		saveGifts: (gifts: Gift[]) => {
 			self.gifts.replace(gifts);
 		},
+		saveOtherPromo(str: string) {
+			self.other = str;
+		},
 	}))
-	.actions((self) => ({
+	.actions(self => ({
 		getGifts: async () => {
 			const giftApi = new GiftApi(self.environment.api);
 			const result = await giftApi.getGifts();
 
 			if (result.kind === "ok") {
 				self.saveGifts(result.gifts);
-				self.other = result.other;
+				self.saveOtherPromo(result.other);
 			} else {
 				__DEV__ && console.tron.log(result.kind);
 			}
 		},
 	}))
-	.views((self) => ({
+	.views(self => ({
 		getGiftSummary(totalPV: number) {
-			self.gifts.forEach((g) => console.log(g.PVCost));
+			self.gifts.forEach(g => console.log(g.PVCost));
 			for (const g of [...self.gifts].reverse()) {
 				if (g.PVCost <= totalPV) {
 					return g.name;
 				}
 			}
-			return "無";
+			return "";
 		},
 	}));
 

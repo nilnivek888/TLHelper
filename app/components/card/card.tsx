@@ -79,7 +79,6 @@ const iconContainerStyle: ViewStyle = {
  */
 export const Card: React.FC<CardProps> = observer((props: CardProps) => {
 	const product = props.product;
-	const { giftStore } = useStores();
 	return (
 		<View style={cardFillStyle}>
 			<TouchableOpacity

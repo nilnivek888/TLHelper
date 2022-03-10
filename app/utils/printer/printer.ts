@@ -43,8 +43,9 @@ async function modifyAndExport(
 
 	// read in excel template
 	const data = await RNFS.readFile(oldFile, "ascii");
-	const newFile = FileSystem.cacheDirectory + "/test.xlsx"; //FileSystem.cacheDirectory + new Date().toLocaleString();
+	const newFile = FileSystem.cacheDirectory + new Date().toLocaleString();
 	var workbook = new Excel.Workbook();
+	workbook.calcProperties.fullCalcOnLoad = true;
 	await workbook.xlsx.load(data);
 	var worksheet = workbook.getWorksheet(1);
 	const startRow = config.data().startRow;
@@ -105,7 +106,7 @@ async function shareFile(newFile: string) {
 		dialogTitle: "Your dialog title here", // Android and Web
 		UTI: "com.microsoft.excel.xlsx", // iOS
 	})
-		.catch((error) => {
+		.catch(error => {
 			console.error("Error", error);
 		})
 		.then(() => {
