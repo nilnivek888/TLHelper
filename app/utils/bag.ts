@@ -1,9 +1,4 @@
-import {
-	cast,
-	castToReferenceSnapshot,
-	castToSnapshot,
-	getSnapshot,
-} from "mobx-state-tree";
+import { cast } from "mobx-state-tree";
 import { Alert } from "react-native";
 import { BooleanStore } from "../models";
 import { GiftStore } from "../models/gift-store/gift-store";
@@ -35,7 +30,8 @@ export function sendSummaryAlert(
 	productStore: ProductStore,
 	giftStore: GiftStore,
 	feeIncludedStore: BooleanStore,
-	orderStore: OrderStore
+	orderStore: OrderStore,
+	goNextScreen: () => void
 ) {
 	const totalPrice = productStore.getTotalPrice(feeIncludedStore.feeIncluded);
 	Alert.alert(
@@ -71,6 +67,7 @@ export function sendSummaryAlert(
 						)
 					);
 					orderStore.setMapToPrdColumns(productStore.mapToPrdColumns);
+					goNextScreen();
 				},
 			},
 			{ text: "OK" },

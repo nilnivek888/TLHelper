@@ -33,6 +33,10 @@ export const color = {
 	 */
 	primaryDarker: palette.greenDarker,
 	/**
+	 * The main tinting color.
+	 */
+	primaryLighter: palette.lightGreen,
+	/**
 	 * The main accent color for important stuff
 	 */
 	accent: palette.orange,

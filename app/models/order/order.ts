@@ -1,18 +1,4 @@
-import {
-	getSnapshot,
-	Instance,
-	SnapshotOut,
-	types,
-	cast,
-	applySnapshot,
-	SnapshotOrInstance,
-} from "mobx-state-tree";
-import { string } from "mobx-state-tree/dist/internal";
-import {
-	ProductStore,
-	ProductStoreModel,
-} from "../product-store/product-store";
-import { BooleanStore } from "../root-store/root-store";
+import { Instance, SnapshotOut, types } from "mobx-state-tree";
 
 /**
  * Order model. Stores 2 snapshots.

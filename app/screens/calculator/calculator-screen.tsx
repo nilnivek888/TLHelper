@@ -141,7 +141,8 @@ export const CalculatorScreen: FC<
 							productStore,
 							giftStore,
 							feeIncludedStore,
-							orderStore
+							orderStore,
+							() => navigation.navigate("export")
 						);
 					}}
 				/>
@@ -175,6 +176,9 @@ export const CalculatorScreen: FC<
 								onPress={() => {
 									productStore.clear();
 									giftStore.clear();
+									if (feeIncludedStore.feeIncluded) {
+										feeIncludedStore.toggle();
+									}
 								}}
 								text="清除"
 							/>

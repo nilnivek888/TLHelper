@@ -1,15 +1,12 @@
 import { StackScreenProps } from "@react-navigation/stack";
 import { observer } from "mobx-react-lite";
-import React, { FC, useEffect } from "react";
+import React, { FC, useRef } from "react";
 import { View, TextStyle, ViewStyle, FlatList, Alert } from "react-native";
-import { Screen, Header, Text, Button, CheckBox } from "../../components";
-import { Card } from "../../components/card/card";
+import { Screen, Header } from "../../components";
 import { ItemOrder } from "../../components/itemOrder/itemOrder";
 import { useStores } from "../../models";
-import { Order } from "../../models/order/order";
 import { NavigatorParamList } from "../../navigators";
-import { color, spacing, shadow, shadowup } from "../../theme";
-import { sendSummaryAlert } from "../../utils/bag";
+import { color, spacing, shadow } from "../../theme";
 import { exportToExcel } from "../../utils/printer/printer";
 
 const FULL: ViewStyle = {
@@ -47,17 +44,13 @@ const FLAT_LIST: ViewStyle = {
 export const ExportScreen: FC<
 	StackScreenProps<NavigatorParamList, "calculator">
 > = observer(({ navigation }) => {
-	const {
-		productStore,
-		giftStore,
-		feeIncludedStore,
-		orderStore,
-	} = useStores();
+	const { orderStore } = useStores();
 	const { orders } = orderStore;
 
 	function removeItem(id: number) {
 		return orderStore.removeOrder(id);
 	}
+	const flatList = useRef<FlatList<any>>();
 	return (
 		<View testID="ExportScreen" style={FULL}>
 			<Screen style={CONTAINER} preset="fixed" unsafe>
@@ -80,12 +73,14 @@ export const ExportScreen: FC<
 					}}
 				/>
 				<FlatList
+					ref={flatList}
 					removeClippedSubviews={false}
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={FLAT_LIST}
 					data={[...orders]}
 					keyExtractor={(item) => String(item.id)}
 					horizontal={false}
+					onContentSizeChange={() => flatList?.current.scrollToEnd()}
 					renderItem={({ item }) => (
 						<View style={LIST_CONTAINER}>
 							<ItemOrder

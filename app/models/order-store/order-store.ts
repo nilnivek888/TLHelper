@@ -5,7 +5,7 @@ import {
 	castToSnapshot,
 	SnapshotOrInstance,
 } from "mobx-state-tree";
-import { Order, OrderModel } from "../order/order";
+import { OrderModel } from "../order/order";
 import { withEnvironment } from "../extensions/with-environment";
 
 export const OrderStoreModel = types

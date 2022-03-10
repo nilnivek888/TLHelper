@@ -104,7 +104,8 @@ export const GiftScreen: FC<
 							productStore,
 							giftStore,
 							feeIncludedStore,
-							orderStore
+							orderStore,
+							() => navigation.navigate("export")
 						);
 					}}
 				/>
