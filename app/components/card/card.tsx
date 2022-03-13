@@ -1,6 +1,12 @@
 import { observer } from "mobx-react-lite";
-import React from "react";
-import { ImageStyle, TextStyle, View, ViewStyle } from "react-native";
+import React, { useState } from "react";
+import {
+	ImageStyle,
+	TextInput,
+	TextStyle,
+	View,
+	ViewStyle,
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Button, Icon, Text } from "..";
 import { useStores } from "../../models";
@@ -79,6 +85,7 @@ const iconContainerStyle: ViewStyle = {
  */
 export const Card: React.FC<CardProps> = observer((props: CardProps) => {
 	const product = props.product;
+	const [cnt, setCnt] = useState(0);
 	return (
 		<View style={cardFillStyle}>
 			<TouchableOpacity
@@ -114,10 +121,15 @@ export const Card: React.FC<CardProps> = observer((props: CardProps) => {
 				</Button>
 
 				<View style={flexWrapStyle}>
-					<Text maxFontSizeMultiplier={1} style={counterTextStyle}>
-						{" "}
-						{props.product.count}
-					</Text>
+					<TextInput
+						maxFontSizeMultiplier={1}
+						style={counterTextStyle}
+						keyboardType="number-pad"
+						value={props.product.count.toString()}
+						onChangeText={text => props.product.setCount(+text)}
+						selectTextOnFocus
+						maxLength={2}
+					></TextInput>
 				</View>
 				<Button preset="card" onPress={product.increment}>
 					<Icon

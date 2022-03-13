@@ -17,15 +17,16 @@ export class ProductApi {
 				.orderBy("order", "asc");
 			const snapshot = await prdsCollection.get();
 			let fee = 0;
+			let feeColumn = 0;
 			if (snapshot.empty) {
 				console.log("No documents.");
 			}
-			snapshot.forEach((doc) => {
+			snapshot.forEach(doc => {
 				if (doc.id === "fee") {
 					fee = doc.data().price;
+					feeColumn = doc.data().columnToFile;
 					return;
 				}
-				console.log("Fire" + doc.data().columnToFile);
 				prds.push(
 					ProductModel.create({
 						id: doc.id,
@@ -43,6 +44,7 @@ export class ProductApi {
 				kind: "ok",
 				products: prds,
 				membershipFee: fee,
+				feeColumnToFile: feeColumn,
 			};
 		} catch (e) {
 			__DEV__ && console.log(e.message);

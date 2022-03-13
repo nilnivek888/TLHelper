@@ -8,7 +8,7 @@ export const BooleanModel = types
 	.props({
 		feeIncluded: types.boolean,
 	})
-	.actions((self) => ({
+	.actions(self => ({
 		toggle: () => {
 			self.feeIncluded = !self.feeIncluded;
 		},

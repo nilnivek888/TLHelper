@@ -42,36 +42,36 @@ export function sendSummaryAlert(
 			totalPrice,
 			feeIncludedStore.feeIncluded
 		),
-		[
-			{
-				text: "匯入表單",
-				onPress: () => {
-					if (
-						totalPrice ===
+		totalPrice !==
+			(feeIncludedStore.feeIncluded ? productStore.membershipFee : 0)
+			? [
+					totalPrice !==
 						(feeIncludedStore.feeIncluded
 							? productStore.membershipFee
-							: 0)
-					) {
-						Alert.alert("無法匯入表單", "購物車為空");
-						return;
-					}
-					orderStore.addOrder(
-						cast(
-							OrderModel.create({
-								id: new Date().valueOf(),
-								prodsManifest: productStore.manifest,
-								feeIncluded: feeIncludedStore.feeIncluded,
-								totalPrice: totalPrice,
-								name: "",
-							})
-						)
-					);
-					orderStore.setMapToPrdColumns(productStore.mapToPrdColumns);
-					goNextScreen();
-				},
-				style: "cancel",
-			},
-			{ text: "OK" },
-		]
+							: 0) && {
+						text: "匯入表單",
+						onPress: () => {
+							orderStore.addOrder(
+								cast(
+									OrderModel.create({
+										id: new Date().valueOf(),
+										prodsManifest: productStore.manifest,
+										feeIncluded:
+											feeIncludedStore.feeIncluded,
+										totalPrice: totalPrice,
+										name: "",
+									})
+								)
+							);
+							orderStore.setMapToPrdColumns(
+								productStore.mapToPrdColumns
+							);
+							goNextScreen();
+						},
+						style: "cancel",
+					},
+					{ text: "OK" },
+			  ]
+			: [{ text: "OK" }]
 	);
 }

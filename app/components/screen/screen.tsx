@@ -11,9 +11,7 @@ import {
 	useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { ScreenProps } from "./screen.props";
-import { isNonScrolling, offsets, presets } from "./screen.presets";
-import { color } from "../../theme";
-
+import { isNonScrolling, presets } from "./screen.presets";
 const isIos = Platform.OS === "ios";
 
 function ScreenWithoutScrolling(props: ScreenProps) {
@@ -27,9 +25,10 @@ function ScreenWithoutScrolling(props: ScreenProps) {
 	return (
 		<KeyboardAvoidingView
 			style={[preset.outer, backgroundStyle]}
-			behavior={isIos ? "padding" : undefined}
-			keyboardVerticalOffset={offsets[props.keyboardOffset || "none"]}
+			behavior={isIos ? "padding" : "padding"}
+			keyboardVerticalOffset={props.keyboardOffset || insets.top || 0}
 		>
+			{console.log("StatusBar.currentHeight: ", insets.top)}
 			<StatusBar
 				barStyle={props.statusBar || "light-content"}
 				{...props}
@@ -53,8 +52,8 @@ function ScreenWithScrolling(props: ScreenProps) {
 	return (
 		<KeyboardAvoidingView
 			style={[preset.outer, backgroundStyle]}
-			behavior={isIos ? "padding" : undefined}
-			keyboardVerticalOffset={offsets[props.keyboardOffset || "none"]}
+			behavior={isIos ? "height" : "padding"}
+			keyboardVerticalOffset={props.keyboardOffset || insets.top || 0}
 		>
 			<StatusBar barStyle={props.statusBar || "light-content"} />
 			<View style={[preset.outer, backgroundStyle, insetStyle]}>

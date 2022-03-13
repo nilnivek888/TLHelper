@@ -56,6 +56,7 @@ export const AppNavigator = (props: NavigationProps) => {
 				{...props}
 			>
 				<Tab.Navigator
+					initialRouteName="calculator"
 					screenOptions={{
 						tabBarStyle: {
 							backgroundColor: color.primary,

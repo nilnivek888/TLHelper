@@ -8,14 +8,16 @@ export const ProductStoreModel = types
 	.props({
 		products: types.array(ProductModel),
 		membershipFee: types.maybe(types.integer),
+		membershipFeeColumnToFile: types.maybe(types.integer),
 	})
 	.extend(withEnvironment)
 	.actions(self => ({
 		saveProducts: (products: Product[]) => {
 			self.products.replace(products);
 		},
-		saveMembershipFee(fee: number) {
+		saveMembershipFee(fee: number, columnToFile: number) {
 			self.membershipFee = fee;
+			self.membershipFeeColumnToFile = columnToFile;
 		},
 		update: (manifest: string) => {
 			const obj = JSON.parse(manifest);
@@ -31,7 +33,10 @@ export const ProductStoreModel = types
 
 			if (result.kind === "ok") {
 				self.saveProducts(result.products);
-				self.saveMembershipFee(result.membershipFee);
+				self.saveMembershipFee(
+					result.membershipFee,
+					result.feeColumnToFile
+				);
 			} else {
 				__DEV__ && console.tron.log(result.kind);
 			}
@@ -63,7 +68,6 @@ export const ProductStoreModel = types
 			self.products.forEach(prd => {
 				map.set(prd.id, prd.count);
 			});
-			console.log("MAIFEST:" + JSON.stringify(Object.fromEntries(map)));
 			return JSON.stringify(Object.fromEntries(map));
 		},
 		get mapToPrdColumns(): string {
@@ -74,6 +78,7 @@ export const ProductStoreModel = types
 				);
 				map.set(prd.id, prd.columnToFile);
 			});
+			map.set("fee", self.membershipFeeColumnToFile);
 			console.log("MAP" + JSON.stringify(Object.fromEntries(map)));
 			return JSON.stringify(Object.fromEntries(map));
 		},

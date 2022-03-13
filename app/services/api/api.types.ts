@@ -11,7 +11,12 @@ export type GetUsersResult = { kind: "ok"; users: User[] } | GeneralApiProblem;
 export type GetUserResult = { kind: "ok"; user: User } | GeneralApiProblem;
 
 export type GetProductsResult =
-	| { kind: "ok"; products: Product[]; membershipFee: number }
+	| {
+			kind: "ok";
+			products: Product[];
+			membershipFee: number;
+			feeColumnToFile: number;
+	  }
 	| GeneralApiProblem;
 
 export type GetGiftsResult =

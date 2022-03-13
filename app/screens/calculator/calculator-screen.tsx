@@ -188,7 +188,7 @@ export const CalculatorScreen: FC<
 					showsVerticalScrollIndicator={false}
 					contentContainerStyle={FLAT_LIST}
 					data={[...products]}
-					keyExtractor={(item) => String(item.id)}
+					keyExtractor={item => String(item.id)}
 					numColumns={2}
 					horizontal={false}
 					renderItem={({ item }) => (
@@ -202,6 +202,7 @@ export const CalculatorScreen: FC<
 					<View style={FOOTER_CONTENT}>
 						<View style={FOOTER_CONTAINERS}>
 							<Text
+								adjustsFontSizeToFit
 								maxFontSizeMultiplier={1}
 								style={{ ...TITLE_TEXT, fontWeight: "bold" }}
 							>
@@ -210,6 +211,7 @@ export const CalculatorScreen: FC<
 						</View>
 						<View style={FOOTER_CONTAINERS}>
 							<Text
+								adjustsFontSizeToFit
 								maxFontSizeMultiplier={1}
 								style={{ ...TITLE_TEXT, fontWeight: "bold" }}
 							>

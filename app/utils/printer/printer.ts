@@ -9,7 +9,7 @@ import { OrderStore } from "../../models/order-store/order-store";
 import { Order } from "../../models/order/order";
 import firestore from "@react-native-firebase/firestore";
 
-export async function exportToExcel(orderStore: OrderStore) {
+export async function exportToExcel(orderStore: OrderStore): Promise<string> {
 	try {
 		const fileName = "template.xlsx";
 		const templateUri = `${utils.FilePath.DOCUMENT_DIRECTORY}/${fileName}`;
@@ -25,10 +25,10 @@ export async function exportToExcel(orderStore: OrderStore) {
 				console.error("Firebasre error", storage.TaskState);
 			}
 		}
-		const newUri = await modifyAndExport(templateUri, orderStore);
-		shareFile(newUri);
+		return await modifyAndExport(templateUri, orderStore);
 	} catch (error) {
 		console.log(error);
+		return "";
 	}
 }
 
@@ -43,9 +43,9 @@ async function modifyAndExport(
 
 	// read in excel template
 	const data = await RNFS.readFile(oldFile, "ascii");
-	const newFile = FileSystem.cacheDirectory + new Date().toLocaleString();
+	const newFile = `${FileSystem.cacheDirectory}/${new Date().valueOf()}.xlsx`;
+	console.log(newFile);
 	var workbook = new Excel.Workbook();
-	workbook.calcProperties.fullCalcOnLoad = true;
 	await workbook.xlsx.load(data);
 	var worksheet = workbook.getWorksheet(1);
 	const startRow = config.data().startRow;
@@ -73,10 +73,11 @@ async function modifyAndExport(
 
 function modifyRow(order: Order, row: Excel.Row, map: {}) {
 	const prds = JSON.parse(order.prodsManifest);
+	console.log("map", map);
 	for (const prdId in prds) {
 		row.getCell(map[prdId]).value = prds[prdId];
 	}
-	//name
+	row.getCell(map["fee"]).value = order.feeIncluded ? 1 : 0;
 	row.getCell(4).value = order.name;
 	row.commit();
 }
@@ -99,8 +100,9 @@ function printDate(row: Excel.Row) {
 	row.commit();
 }
 
-async function shareFile(newFile: string) {
-	Sharing.shareAsync(newFile, {
+export async function shareFile(newFile: string) {
+	console.log("filename: " + newFile);
+	await Sharing.shareAsync(newFile, {
 		mimeType:
 			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Android
 		dialogTitle: "Your dialog title here", // Android and Web
