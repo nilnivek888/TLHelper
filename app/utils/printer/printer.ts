@@ -8,6 +8,7 @@ import * as Sharing from "expo-sharing";
 import { OrderStore } from "../../models/order-store/order-store";
 import { Order } from "../../models/order/order";
 import firestore from "@react-native-firebase/firestore";
+import { Share } from "react-native";
 
 export async function exportToExcel(orderStore: OrderStore): Promise<string> {
 	try {
@@ -44,7 +45,7 @@ async function modifyAndExport(
 	// read in excel template
 	const data = await RNFS.readFile(oldFile, "ascii");
 	const newFile = `${FileSystem.cacheDirectory}/${new Date().valueOf()}.xlsx`;
-	console.log(newFile);
+	console.log("2. modifyAndExport");
 	var workbook = new Excel.Workbook();
 	await workbook.xlsx.load(data);
 	var worksheet = workbook.getWorksheet(1);
@@ -101,18 +102,36 @@ function printDate(row: Excel.Row) {
 }
 
 export async function shareFile(newFile: string) {
-	console.log("filename: " + newFile);
-	await Sharing.shareAsync(newFile, {
-		mimeType:
-			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Android
-		dialogTitle: "Your dialog title here", // Android and Web
-		UTI: "com.microsoft.excel.xlsx", // iOS
-	})
-		.catch(error => {
-			console.error("Error", error);
-		})
-		.then(() => {
-			console.log("Return from sharing dialog");
+	console.log("4. sharing: " + newFile);
+	try {
+		const result = await Share.share({
+			url: newFile,
 		});
+		console.log("5. Return from sharing dialog");
+		if (result.action === Share.sharedAction) {
+			if (result.activityType) {
+				// shared with activity type of result.activityType
+			} else {
+				// shared
+			}
+		} else if (result.action === Share.dismissedAction) {
+			// dismissed
+		}
+	} catch (error) {
+		alert(error.message);
+	}
+
+	// await Sharing.shareAsync(newFile, {
+	// 	mimeType:
+	// 		"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // Android
+	// 	dialogTitle: "Your dialog title here", // Android and Web
+	// 	UTI: "com.microsoft.excel.xlsx", // iOS
+	// })
+	// 	.catch(error => {
+	// 		console.error("Error", error);
+	// 	})
+	// 	.then(() => {
+
+	// 	});
 	//writeFile("abcd.xlsx", blob, "ascii");
 }

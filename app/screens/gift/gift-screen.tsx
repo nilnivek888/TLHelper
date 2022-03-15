@@ -82,6 +82,7 @@ export const GiftScreen: FC<
 	useEffect(() => {
 		async function fetchData() {
 			await giftStore.getGifts();
+			console.log("gifts loadeed");
 		}
 		fetchData();
 	}, []);

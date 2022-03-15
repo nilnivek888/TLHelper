@@ -28,7 +28,6 @@ function ScreenWithoutScrolling(props: ScreenProps) {
 			behavior={isIos ? "padding" : "padding"}
 			keyboardVerticalOffset={props.keyboardOffset || insets.top || 0}
 		>
-			{console.log("StatusBar.currentHeight: ", insets.top)}
 			<StatusBar
 				barStyle={props.statusBar || "light-content"}
 				{...props}

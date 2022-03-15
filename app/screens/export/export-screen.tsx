@@ -111,10 +111,13 @@ export const ExportScreen: FC<
 								text: "確定",
 								onPress: async () => {
 									setLoading(true);
+									// console.log("1. shild up");
 									const newUri = await exportToExcel(
 										orderStore
 									);
 									setLoading(false);
+									// console.log("3. shild down");
+
 									await shareFile(newUri);
 								},
 								style: "cancel",

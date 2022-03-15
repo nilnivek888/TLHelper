@@ -124,6 +124,7 @@ export const CalculatorScreen: FC<
 	useEffect(() => {
 		async function fetchData() {
 			await productStore.getProducts();
+			await giftStore.getGifts();
 		}
 		fetchData();
 	}, []);
