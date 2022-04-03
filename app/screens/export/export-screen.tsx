@@ -9,6 +9,7 @@ import {
 	Alert,
 	Modal,
 	Text,
+	Platform,
 } from "react-native";
 import { ActivityIndicator, Dimensions } from "react-native";
 import { colors } from "react-native-elements";
@@ -110,15 +111,18 @@ export const ExportScreen: FC<
 							{
 								text: "確定",
 								onPress: async () => {
-									setLoading(true);
+									if (Platform.OS === "android") {
+										setLoading(true);
+									}
 									// console.log("1. shild up");
 									const newUri = await exportToExcel(
 										orderStore
 									);
-									setLoading(false);
+
 									// console.log("3. shild down");
 
 									await shareFile(newUri);
+									setLoading(false);
 								},
 								style: "cancel",
 							},

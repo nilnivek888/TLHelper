@@ -82,6 +82,9 @@ export const ProductStoreModel = types
 			console.log("MAP" + JSON.stringify(Object.fromEntries(map)));
 			return JSON.stringify(Object.fromEntries(map));
 		},
+		get totalItemCount(): number {
+			return self.products.reduce<number>((a, b, _i) => a + b.count, 0);
+		},
 	}));
 
 type ProductStoreType = Instance<typeof ProductStoreModel>;

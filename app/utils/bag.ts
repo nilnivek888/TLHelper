@@ -7,17 +7,19 @@ import { OrderModel } from "../models/order/order";
 import { ProductStore } from "../models/product-store/product-store";
 
 function getSummary(
-	productSummary: string,
+	productStore: ProductStore,
 	giftSummary: string,
 	totalPrice: number,
 	feeIncluded: boolean
 ): string {
-	if (!productSummary && !giftSummary && !feeIncluded) {
+	if (!productStore.productSummary && !giftSummary && !feeIncluded) {
 		return "購物車為空";
 	}
 	return (
-		(productSummary.length ? "《商品》\n" : "") +
-		productSummary +
+		(productStore.productSummary.length ? "《商品》\n" : "") +
+		productStore.productSummary +
+		"\n《商品總件數》\n" +
+		productStore.totalItemCount +
 		(giftSummary.length ? "\n《贈品》\n" : "") +
 		giftSummary +
 		"\n《總價》\n" +
@@ -37,18 +39,14 @@ export function sendSummaryAlert(
 	Alert.alert(
 		"總覽",
 		getSummary(
-			productStore.productSummary,
+			productStore,
 			giftStore.getGiftSummary(productStore.totalPV),
 			totalPrice,
 			feeIncludedStore.feeIncluded
 		),
-		totalPrice !==
-			(feeIncludedStore.feeIncluded ? productStore.membershipFee : 0)
+		totalPrice
 			? [
-					totalPrice !==
-						(feeIncludedStore.feeIncluded
-							? productStore.membershipFee
-							: 0) && {
+					{
 						text: "匯入表單",
 						onPress: () => {
 							orderStore.addOrder(

@@ -9,6 +9,9 @@ import { NavigatorParamList } from "../../navigators";
 import { color, spacing, shadow, shadowup } from "../../theme";
 import { sendSummaryAlert } from "../../utils/bag";
 
+const MAXFONTSIZE = 0.7;
+const MINFONTSIZE = 0.1;
+
 const FULL: ViewStyle = {
 	flex: 1,
 };
@@ -91,10 +94,15 @@ const TITLE_TEXT: TextStyle = {
 	alignSelf: "center",
 	color: color.textDark,
 };
-const FOOTER_CONTAINERS: ViewStyle = {
-	width: "50%",
+const FOOTER_CONTAINER: ViewStyle = {
+	width: "33%",
 	height: "50%",
 	justifyContent: "center",
+};
+
+const PADDED_FOOTER_CONTAINER: ViewStyle = {
+	...FOOTER_CONTAINER,
+	paddingHorizontal: 5,
 };
 
 type TotalProps = {
@@ -105,7 +113,13 @@ type TotalProps = {
 const Total = observer((props: TotalProps) => {
 	const { feeIncludedStore, productStore } = useStores();
 	return (
-		<Text adjustsFontSizeToFit style={props.style}>
+		<Text
+			adjustsFontSizeToFit
+			minimumFontScale={MINFONTSIZE}
+			maxFontSizeMultiplier={MAXFONTSIZE}
+			numberOfLines={1}
+			style={props.style}
+		>
 			{productStore.getTotalPrice(feeIncludedStore.feeIncluded)}
 		</Text>
 	);
@@ -201,33 +215,56 @@ export const CalculatorScreen: FC<
 
 				<View style={FOOTER}>
 					<View style={FOOTER_CONTENT}>
-						<View style={FOOTER_CONTAINERS}>
+						<View style={FOOTER_CONTAINER}>
 							<Text
-								adjustsFontSizeToFit
 								maxFontSizeMultiplier={1}
 								style={{ ...TITLE_TEXT, fontWeight: "bold" }}
 							>
 								{"合計"}
 							</Text>
 						</View>
-						<View style={FOOTER_CONTAINERS}>
+						<View style={FOOTER_CONTAINER}>
 							<Text
-								adjustsFontSizeToFit
 								maxFontSizeMultiplier={1}
 								style={{ ...TITLE_TEXT, fontWeight: "bold" }}
 							>
 								{"PV"}
 							</Text>
 						</View>
-						<View style={FOOTER_CONTAINERS}>
+						<View style={FOOTER_CONTAINER}>
+							<Text
+								adjustsFontSizeToFit
+								style={{ ...TITLE_TEXT, fontWeight: "bold" }}
+							>
+								{"總件數"}
+							</Text>
+						</View>
+						<View style={PADDED_FOOTER_CONTAINER}>
 							<Total
 								style={TITLE_TEXT}
 								fee={productStore.membershipFee}
 							/>
 						</View>
-						<View style={FOOTER_CONTAINERS}>
-							<Text adjustsFontSizeToFit style={TITLE_TEXT}>
+						<View style={PADDED_FOOTER_CONTAINER}>
+							<Text
+								adjustsFontSizeToFit
+								minimumFontScale={MINFONTSIZE}
+								maxFontSizeMultiplier={MAXFONTSIZE}
+								numberOfLines={1}
+								style={TITLE_TEXT}
+							>
 								{productStore.totalPV}
+							</Text>
+						</View>
+						<View style={PADDED_FOOTER_CONTAINER}>
+							<Text
+								adjustsFontSizeToFit
+								minimumFontScale={MINFONTSIZE}
+								maxFontSizeMultiplier={MAXFONTSIZE}
+								numberOfLines={1}
+								style={TITLE_TEXT}
+							>
+								{productStore.totalItemCount}
 							</Text>
 						</View>
 					</View>
