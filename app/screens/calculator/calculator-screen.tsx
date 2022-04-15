@@ -8,8 +8,6 @@ import { useStores } from "../../models";
 import { NavigatorParamList } from "../../navigators";
 import { color, spacing, shadow, shadowup } from "../../theme";
 import { sendSummaryAlert } from "../../utils/bag";
-
-const MAXFONTSIZE = 0.7;
 const MINFONTSIZE = 0.1;
 
 const FULL: ViewStyle = {
@@ -116,7 +114,7 @@ const Total = observer((props: TotalProps) => {
 		<Text
 			adjustsFontSizeToFit
 			minimumFontScale={MINFONTSIZE}
-			maxFontSizeMultiplier={MAXFONTSIZE}
+			maxFontSizeMultiplier={1}
 			numberOfLines={1}
 			style={props.style}
 		>
@@ -249,7 +247,7 @@ export const CalculatorScreen: FC<
 							<Text
 								adjustsFontSizeToFit
 								minimumFontScale={MINFONTSIZE}
-								maxFontSizeMultiplier={MAXFONTSIZE}
+								maxFontSizeMultiplier={1}
 								numberOfLines={1}
 								style={TITLE_TEXT}
 							>
@@ -260,7 +258,7 @@ export const CalculatorScreen: FC<
 							<Text
 								adjustsFontSizeToFit
 								minimumFontScale={MINFONTSIZE}
-								maxFontSizeMultiplier={MAXFONTSIZE}
+								maxFontSizeMultiplier={1}
 								numberOfLines={1}
 								style={TITLE_TEXT}
 							>
