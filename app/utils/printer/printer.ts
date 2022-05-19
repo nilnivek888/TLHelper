@@ -4,7 +4,6 @@ import Excel from "exceljs";
 var RNFS = require("react-native-fs");
 import * as FileSystem from "expo-file-system";
 import { Buffer as NodeBuffer } from "buffer";
-import * as Sharing from "expo-sharing";
 import { OrderStore } from "../../models/order-store/order-store";
 import { Order } from "../../models/order/order";
 import firestore from "@react-native-firebase/firestore";
