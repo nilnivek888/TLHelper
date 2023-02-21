@@ -78,7 +78,7 @@ export const GiftScreen: FC<
 		feeIncludedStore,
 		orderStore,
 	} = useStores();
-	const { gifts } = giftStore;
+	const { gifts,other } = giftStore;
 	useEffect(() => {
 		async function fetchData() {
 			await giftStore.getGifts();
@@ -145,7 +145,7 @@ export const GiftScreen: FC<
 							adjustsFontSizeToFit
 							style={{ ...TITLE_TEXT, fontWeight: "bold" }}
 						>
-							{"保健食品系列買六送二"}
+							{other}
 						</Text>
 					</View>
 				</View>
