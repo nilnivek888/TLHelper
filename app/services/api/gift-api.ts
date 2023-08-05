@@ -12,16 +12,21 @@ export class GiftApi {
 	async getGifts(): Promise<GetGiftsResult> {
 		try {
 			const gifts = [];
-			let other = "";
+			let otherMsg = "";
+			let hasPromotion = true;
 			const giftsCollection = firestore().collection("Gifts");
 			const snapshot = await giftsCollection.get();
 			if (snapshot.empty) {
 				console.log("No documents.");
 			}
 
-			snapshot.forEach((doc) => {
+			snapshot.forEach(doc => {
 				if (doc.id === "other") {
-					other = doc.data().message;
+					otherMsg = doc.data().message;
+					hasPromotion =
+						doc.data().hasPromotion === undefined
+							? false
+							: doc.data().hasPromotion;
 					return;
 				}
 
@@ -38,7 +43,8 @@ export class GiftApi {
 			return {
 				kind: "ok",
 				gifts: gifts,
-				other: other,
+				otherMsg: otherMsg,
+				hasPromotion: hasPromotion,
 			};
 		} catch (e) {
 			__DEV__ && console.log(e.message);

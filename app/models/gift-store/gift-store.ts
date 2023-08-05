@@ -7,15 +7,17 @@ export const GiftStoreModel = types
 	.model("GiftStore")
 	.props({
 		gifts: types.array(GiftModel),
-		other: types.optional(types.string, ""),
+		otherMsg: types.optional(types.string, ""),
+		hasPromotion: types.optional(types.boolean, false),
 	})
 	.extend(withEnvironment)
 	.actions(self => ({
 		saveGifts: (gifts: Gift[]) => {
 			self.gifts.replace(gifts);
 		},
-		saveOtherPromo(str: string) {
-			self.other = str;
+		saveOtherPromo(str: string, hasPromotion: boolean) {
+			self.otherMsg = str;
+			self.hasPromotion = hasPromotion;
 		},
 	}))
 	.actions(self => ({
@@ -25,7 +27,7 @@ export const GiftStoreModel = types
 
 			if (result.kind === "ok") {
 				self.saveGifts(result.gifts);
-				self.saveOtherPromo(result.other);
+				self.saveOtherPromo(result.otherMsg, result.hasPromotion);
 			} else {
 				__DEV__ && console.tron.log(result.kind);
 			}
@@ -33,6 +35,9 @@ export const GiftStoreModel = types
 	}))
 	.views(self => ({
 		getGiftSummary(totalPV: number) {
+			// if (!self.hasPromotion) {
+			// 	return "";
+			// }
 			self.gifts.forEach(g => console.log(g.PVCost));
 			for (const g of [...self.gifts].reverse()) {
 				if (g.PVCost <= totalPV) {

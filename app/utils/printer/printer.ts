@@ -73,7 +73,7 @@ async function modifyAndExport(
 
 function modifyRow(order: Order, row: Excel.Row, map: {}) {
 	const prds = JSON.parse(order.prodsManifest);
-	console.log("map", map);
+	//console.log("map", map);
 	for (const prdId in prds) {
 		row.getCell(map[prdId]).value = prds[prdId];
 	}
@@ -101,12 +101,12 @@ function printDate(row: Excel.Row) {
 }
 
 export async function shareFile(newFile: string) {
-	console.log("4. sharing: " + newFile);
+	//console.log("4. sharing: " + newFile);
 	try {
 		const result = await Share.share({
 			url: newFile,
 		});
-		console.log("5. Return from sharing dialog");
+		//console.log("5. Return from sharing dialog");
 		if (result.action === Share.sharedAction) {
 			if (result.activityType) {
 				// shared with activity type of result.activityType

@@ -4,8 +4,8 @@
  * Generally speaking, it will contain an auth flow (registration, login, forgot password)
  * and a "main" flow which the user will use once logged in.
  */
-import React from "react";
-import { SafeAreaView, useColorScheme } from "react-native";
+import React, { useEffect } from "react";
+import { Alert, SafeAreaView, useColorScheme } from "react-native";
 import {
 	NavigationContainer,
 	DefaultTheme,
@@ -18,6 +18,7 @@ import { color, shadowup } from "../theme";
 import { Icon } from "../components/icon/icon";
 import { GiftScreen } from "../screens/gift/gift-screen";
 import { ExportScreen } from "../screens/export/export-screen";
+import { useStores } from "../models";
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -47,6 +48,13 @@ interface NavigationProps
 
 export const AppNavigator = (props: NavigationProps) => {
 	const colorScheme = useColorScheme();
+	const { giftStore } = useStores();
+	useEffect(() => {
+		async function fetchData() {
+			await giftStore.getGifts();
+		}
+		fetchData();
+	}, []);
 	useBackButtonHandler(canExit);
 	return (
 		<SafeAreaView style={{ flex: 1, backgroundColor: color.primary }}>
@@ -115,6 +123,20 @@ export const AppNavigator = (props: NavigationProps) => {
 								/>
 							),
 						}}
+						listeners={{
+							tabPress: e => {
+								if (!giftStore.hasPromotion) {
+									// Prevent default action
+									e.preventDefault();
+									Alert.alert("❗️", "非活動期間，無贈品", [
+										{
+											text: "返回",
+											style: "cancel",
+										},
+									]);
+								}
+							},
+						}}
 					/>
 					<Tab.Screen
 						name="export"
@@ -137,6 +159,20 @@ export const AppNavigator = (props: NavigationProps) => {
 									}}
 								/>
 							),
+						}}
+						listeners={{
+							tabPress: e => {
+								if (!giftStore.hasPromotion) {
+									// Prevent default action
+									e.preventDefault();
+									Alert.alert("❗️", "非活動期間，無贈品", [
+										{
+											text: "返回",
+											style: "cancel",
+										},
+									]);
+								}
+							},
 						}}
 					/>
 				</Tab.Navigator>

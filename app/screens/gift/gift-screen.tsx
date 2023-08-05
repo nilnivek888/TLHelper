@@ -78,11 +78,11 @@ export const GiftScreen: FC<
 		feeIncludedStore,
 		orderStore,
 	} = useStores();
-	const { gifts,other } = giftStore;
+	const { gifts, otherMsg } = giftStore;
 	useEffect(() => {
 		async function fetchData() {
 			await giftStore.getGifts();
-			console.log("gifts loadeed");
+			console.log("gifts loaded");
 		}
 		fetchData();
 	}, []);
@@ -145,7 +145,7 @@ export const GiftScreen: FC<
 							adjustsFontSizeToFit
 							style={{ ...TITLE_TEXT, fontWeight: "bold" }}
 						>
-							{other}
+							{otherMsg}
 						</Text>
 					</View>
 				</View>

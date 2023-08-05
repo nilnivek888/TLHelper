@@ -20,5 +20,5 @@ export type GetProductsResult =
 	| GeneralApiProblem;
 
 export type GetGiftsResult =
-	| { kind: "ok"; gifts: Gift[]; other: string }
+	| { kind: "ok"; gifts: Gift[]; otherMsg: string; hasPromotion: boolean }
 	| GeneralApiProblem;

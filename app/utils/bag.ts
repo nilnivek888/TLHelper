@@ -10,22 +10,21 @@ function getSummary(
 	productStore: ProductStore,
 	giftSummary: string,
 	totalPrice: number,
-	feeIncluded: boolean
+	feeIncluded: boolean,
+	hasPromotion: boolean
 ): string {
 	if (!productStore.productSummary && !giftSummary && !feeIncluded) {
 		return "購物車為空";
 	}
-	return (
+	const productStr =
 		(productStore.productSummary.length ? "《商品》\n" : "") +
-		productStore.productSummary +
-		"\n《商品總件數》\n" +
-		productStore.totalItemCount +
-		(giftSummary.length ? "\n《贈品》\n" : "") +
-		giftSummary +
-		"\n《總價》\n" +
-		totalPrice +
-		(feeIncluded ? "(含入會費)" : "")
-	);
+		productStore.productSummary;
+	const productCountStr = "\n《商品總件數》\n" + productStore.totalItemCount;
+	const giftStr =
+		hasPromotion && giftSummary.length ? `\n《贈品》\n${giftSummary}` : "";
+	const totalPriceStr =
+		"\n《總價》\n" + totalPrice + (feeIncluded ? "(含入會費)" : "");
+	return productStr + productCountStr + giftStr + totalPriceStr;
 }
 
 export function sendSummaryAlert(
@@ -42,9 +41,10 @@ export function sendSummaryAlert(
 			productStore,
 			giftStore.getGiftSummary(productStore.totalPV),
 			totalPrice,
-			feeIncludedStore.feeIncluded
+			feeIncludedStore.feeIncluded,
+			giftStore.hasPromotion
 		),
-		totalPrice
+		totalPrice && giftStore.hasPromotion
 			? [
 					{
 						text: "匯入表單",
